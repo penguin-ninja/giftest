@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.tmp/
+webpack-assets.json
+webpack-stats.json
+npm-debug.log
+.DS_Store
+.env
