@@ -1,0 +1,26 @@
+{
+  "name": "giftests",
+  "version": "0.0.1",
+  "description": "Image morphing application for fun",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/socialsweetheartsgmbh/giftests.git"
+  },
+  "keywords": [
+    "image",
+    "morphing",
+    "gift",
+    "facebook",
+    "social"
+  ],
+  "author": "Joao Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/socialsweetheartsgmbh/giftests/issues"
+  },
+  "homepage": "https://github.com/socialsweetheartsgmbh/giftests#readme"
+}
