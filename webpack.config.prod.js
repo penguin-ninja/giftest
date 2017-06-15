@@ -47,7 +47,7 @@ module.exports = {
       }, {
         test: /\.jsx*$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
       }, {
         test: /\.(jpe?g|gif|png|svg)$/i,
         loader: 'url-loader?limit=10000',
@@ -82,18 +82,21 @@ module.exports = {
         warnings: false,
       }
     }),
-  ],
-
-  postcss: () => [
-    postcssFocus(),
-    cssnext({
-      browsers: ['last 2 versions', 'IE > 10'],
-    }),
-    cssnano({
-      autoprefixer: false
-    }),
-    postcssReporter({
-      clearMessages: true,
-    }),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: () => [
+          postcssFocus(),
+          cssnext({
+            browsers: ['last 2 versions', 'IE > 10'],
+          }),
+          cssnano({
+            autoprefixer: false
+          }),
+          postcssReporter({
+            clearMessages: true,
+          }),
+        ]
+      }
+    })
   ],
 };

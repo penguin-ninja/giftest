@@ -27,7 +27,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     modules: [
       'client',
       'node_modules',
@@ -47,7 +47,7 @@ module.exports = {
       }, {
         test: /\.jsx*$/,
         exclude: [/node_modules/, /.+\.config.js/],
-        loader: 'babel',
+        loader: 'babel-loader',
       }, {
         test: /\.(jpe?g|gif|png|svg)$/i,
         loader: 'url-loader?limit=10000',
@@ -71,15 +71,20 @@ module.exports = {
         'NODE_ENV': JSON.stringify('development'),
       }
     }),
-  ],
-
-  postcss: () => [
-    postcssFocus(),
-    cssnext({
-      browsers: ['last 2 versions', 'IE > 10'],
-    }),
-    postcssReporter({
-      clearMessages: true,
+    new webpack.LoaderOptionsPlugin({
+      test: /\.css$/,
+      options: {
+        context: __dirname,
+        postcss: () => [
+          postcssFocus(),
+          cssnext({
+            browsers: ['last 2 versions', 'IE > 10'],
+          }),
+          postcssReporter({
+            clearMessages: true,
+          }),
+        ]
+      },
     }),
   ],
 };
