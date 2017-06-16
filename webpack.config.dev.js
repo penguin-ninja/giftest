@@ -8,6 +8,7 @@ module.exports = {
 
   entry: {
     app: [
+      'bootstrap-loader',
       'eventsource-polyfill',
       'webpack-hot-middleware/client',
       'webpack/hot/only-dev-server',
@@ -49,7 +50,7 @@ module.exports = {
         exclude: [/node_modules/, /.+\.config.js/],
         loader: 'babel-loader',
       }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.(jpe?g|gif|png|svg|woff|woff2|ttf|eot)$/i,
         loader: 'url-loader?limit=10000',
       }, {
         test: /\.json$/,
@@ -70,6 +71,9 @@ module.exports = {
         CLIENT: JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development'),
       }
+    }),
+    new webpack.ProvidePlugin({
+        jQuery: 'jquery'
     }),
     new webpack.LoaderOptionsPlugin({
       test: /\.css$/,

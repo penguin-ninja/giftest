@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
@@ -13,7 +14,7 @@ module.exports = {
     libraryTarget: 'commonjs2',
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     modules: [
       'client',
       'node_modules',
@@ -32,13 +33,21 @@ module.exports = {
       },
     ],
   },
-  postcss: () => [
-    postcssFocus(),
-    cssnext({
-      browsers: ['last 2 versions', 'IE > 10'],
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      test: /\.css$/,
+      options: {
+        context: __dirname,
+        postcss: () => [
+          postcssFocus(),
+          cssnext({
+            browsers: ['last 2 versions', 'IE > 10'],
+          }),
+          postcssReporter({
+            clearMessages: true,
+          }),
+        ]
+      },
     }),
-    postcssReporter({
-      clearMessages: true,
-    }),
-  ],
+  ]
 };

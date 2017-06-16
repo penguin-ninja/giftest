@@ -1,7 +1,6 @@
 {
   "extends": [
-    "airbnb",
-    "plugin:ava/recommended"
+    "airbnb"
   ],
   "parser": "babel-eslint",
   "plugins": [
@@ -21,6 +20,12 @@
      "max-len": [1, 180, 4],
      "arrow-body-style": [0],
      "react/jsx-no-bind": [0],
+     "react/jsx-filename-extension": [0],
+     "react/forbid-prop-types": [0],
+     "import/no-extraneous-dependencies": 0,
+     "import/first": 0,
+     "arrow-parens": 0,
+     "global-require": 0,
      "import/no-unresolved": [0] // Until import plugin supports webpack 2 resolveModules
   }
 }

@@ -3,15 +3,17 @@ import React, { Component, PropTypes } from 'react';
 // Import Components
 import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
-export class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = { isMounted: false };
   }
 
   componentDidMount() {
-    this.setState({ isMounted: true });
+    this.setState({ isMounted: true }); // eslint-disable-line
   }
 
   render() {
@@ -34,7 +36,9 @@ export class App extends Component {
             ]}
           />
           <div>
+            <Header />
             {this.props.children}
+            <Footer />
           </div>
         </div>
       </div>

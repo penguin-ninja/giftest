@@ -12,6 +12,7 @@ module.exports = {
 
   entry: {
     app: [
+      'bootstrap-loader',
       './client/index.js',
     ],
     vendor: [
@@ -49,12 +50,12 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.(jpe?g|gif|png|svg|woff|woff2|ttf|eot)$/i,
         loader: 'url-loader?limit=10000',
       }, {
         test: /\.json$/,
         loader: 'json-loader',
-      },
+      }
     ],
   },
 
@@ -81,6 +82,9 @@ module.exports = {
       compressor: {
         warnings: false,
       }
+    }),
+    new webpack.ProvidePlugin({
+        jQuery: 'jquery'
     }),
     new webpack.LoaderOptionsPlugin({
       options: {

@@ -5,9 +5,9 @@ import path from 'path';
 
 // Webpack Requirements
 import webpack from 'webpack';
-import config from '../webpack.config.dev';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import config from '../webpack.config.dev';
 
 // Initialize the Express App
 const app = new Express();
@@ -59,7 +59,7 @@ const renderFullPage = (html, initialState) => {
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
       </head>
       <body>
-        <div id="root">${html}</div>
+        <div id="root"><div>${html}</div></div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
           ${process.env.NODE_ENV === 'production' ?
@@ -74,7 +74,7 @@ const renderFullPage = (html, initialState) => {
   `;
 };
 
-const renderError = err => {
+const renderError = (err) => {
   const softTab = '&#32;&#32;&#32;&#32;';
   const errTrace = process.env.NODE_ENV !== 'production' ?
     `:<br><br><pre style="color:red">${softTab}${err.stack.replace(/\n/g, `<br>${softTab}`)}</pre>` : '';
