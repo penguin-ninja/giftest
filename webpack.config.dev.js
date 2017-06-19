@@ -4,11 +4,9 @@ var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
-
+  devtool: 'inline-source-map',
   entry: {
     app: [
-      'bootstrap-loader',
       'eventsource-polyfill',
       'webpack-hot-middleware/client',
       'webpack/hot/only-dev-server',
@@ -18,13 +16,14 @@ module.exports = {
     vendor: [
       'react',
       'react-dom',
+      'bootstrap-loader',
     ],
   },
 
   output: {
     path: __dirname,
     filename: 'app.js',
-    publicPath: 'http://0.0.0.0:8000/',
+    publicPath: 'http://0.0.0.0:3000/',
   },
 
   resolve: {

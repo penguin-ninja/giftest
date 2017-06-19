@@ -8,15 +8,15 @@ import { configureStore } from './redux/store';
 import { selectLocationState } from './redux/selectors';
 
 // Initialize store
-const store = configureStore(hisory, window.__INITIAL_STATE__);
+const store = configureStore(history, window.__INITIAL_STATE__);
 const syncedHistory = syncHistoryWithStore(history, store, {
-  selectLocationState
+  selectLocationState,
 });
 const mountApp = document.getElementById('root');
 
 render(
   <AppContainer>
-    <App store={store} />
+    <App store={store} history={syncedHistory} />
   </AppContainer>,
   mountApp
 );
