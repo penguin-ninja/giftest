@@ -1,11 +1,17 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
-import { configureStore } from './store';
+import history from './history';
+import { configureStore } from './redux/store';
+import { selectLocationState } from './redux/selectors';
 
 // Initialize store
-const store = configureStore(window.__INITIAL_STATE__);
+const store = configureStore(hisory, window.__INITIAL_STATE__);
+const syncedHistory = syncHistoryWithStore(history, store, {
+  selectLocationState
+});
 const mountApp = document.getElementById('root');
 
 render(

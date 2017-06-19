@@ -3,6 +3,7 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 import styles from './styles.css'
 
+// @TODO update links to relative URLs
 class Footer extends Component {
   render() {
     return (

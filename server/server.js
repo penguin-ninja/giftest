@@ -7,6 +7,7 @@ import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import { syncHistoryWithStore } from 'react-router-redux';
 import config from '../webpack.config.dev';
 
 // Initialize the Express App
@@ -20,11 +21,14 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // React And Redux Setup
-import { configureStore } from '../client/store';
+import { configureStore } from '../client/redux/store';
+import { selectLocationState } from '../client/redux/selectors';
+
+// Initialize store
 import { Provider } from 'react-redux';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { match, createMemoryHistory, RouterContext } from 'react-router';
 import Helmet from 'react-helmet';
 
 // Import required modules
@@ -83,7 +87,13 @@ const renderError = (err) => {
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
+  const memoryHistory = createMemoryHistory(req.url);
+  const store = configureStore(memoryHistory);
+  const history = syncHistoryWithStore(memoryHistory, store, {
+    selectLocationState,
+  });
+
+  match({ history, routes, location: req.url }, (err, redirectLocation, renderProps) => {
     if (err) {
       return res.status(500).end(renderError(err));
     }
@@ -95,8 +105,6 @@ app.use((req, res, next) => {
     if (!renderProps) {
       return next();
     }
-
-    const store = configureStore();
 
     return fetchComponentData(store, renderProps.components, renderProps.params)
       .then(() => {

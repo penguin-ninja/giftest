@@ -1,12 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { fromJS } from 'immutable';
+import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
-import DevTools from './modules/App/components/DevTools';
+import DevTools from '../modules/App/components/DevTools';
 import rootReducer from './reducers';
 
-export function configureStore(initialState = {}) {
+export function configureStore(history, initialState = {}) {
   // Middleware and store enhancers
   const enhancers = [
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, routerMiddleware(history)),
   ];
 
   if (process.env.CLIENT && process.env.NODE_ENV === 'development') {
@@ -14,7 +16,7 @@ export function configureStore(initialState = {}) {
     enhancers.push(window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument());
   }
 
-  const store = createStore(rootReducer, initialState, compose(...enhancers));
+  const store = createStore(rootReducer, fromJS(initialState), compose(...enhancers));
 
   // For hot reloading reducers
   if (module.hot) {
@@ -27,3 +29,5 @@ export function configureStore(initialState = {}) {
 
   return store;
 }
+
+export default configureStore;
