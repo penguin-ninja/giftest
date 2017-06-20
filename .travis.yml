@@ -1,0 +1,23 @@
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+  - "node"
+  - "7"
+cache:
+  directories:
+    - "node_modules"
+services:
+  - mongodb
+before_install:
+  - npm install -g pm2
+before_script:
+  - mongo giftests --eval 'db.addUser("travis", "test");'
+script:
+  - npm run build
+  - npm run build:server
+after_script:
+  - eval "$(ssh-agent -s)" #start the ssh agent
+  - chmod 600 .travis/deploy_key.pem # this key should have push access
+  - ssh-add .travis/deploy_key.pem
+  - pm2 deploy development

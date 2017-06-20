@@ -1,5 +1,9 @@
 // initializing env variables
-require('dotenv').config();
+try {
+  require('dotenv').config();
+} catch (e) {
+  console.log('Could not find .env file. Continuing..');
+}
 
 if (process.env.NODE_ENV === 'production') {
   process.env.webpackAssets = JSON.stringify(require('./dist/client/manifest.json'));

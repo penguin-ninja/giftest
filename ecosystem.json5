@@ -1,0 +1,21 @@
+{
+  apps: [{
+    name: 'Giftests Development',
+    script: 'npm start',
+    env_development: {
+      NODE_ENV: 'development'
+    }
+  }],
+  deploy: {
+    development: {
+      key: '.travis/deploy_key.pem',
+      user: 'ubuntu',
+      host: '',
+      ref: 'origin/master',
+      repo: 'git@github.com:socialsweetheartsgmbh/giftests.git',
+      path: '/srv/giftests',
+      'pre-deploy': '',
+      'post-deploy': 'npm install && pm2 startOrRestart ecosystem.json5 --env development'
+    }
+  }
+}
