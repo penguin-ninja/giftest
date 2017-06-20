@@ -6,7 +6,7 @@ import DevTools from './components/DevTools';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-class App extends Component {
+class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = { isMounted: false };
@@ -46,8 +46,8 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
+Layout.propTypes = {
   children: PropTypes.object.isRequired,
 };
 
-export default App;
+export default Layout;

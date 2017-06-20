@@ -12,8 +12,7 @@ module.exports = {
   devtool: 'hidden-source-map',
   entry: {
     app: [
-      'bootstrap-loader',
-      './client/index.js',
+      './client/index.js'
     ],
     vendor: [
       'react',
@@ -28,7 +27,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     modules: [
       path.resolve('./client'),
       'node_modules',
@@ -39,8 +38,19 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?localIdentName=[hash:base64]&modules&importLoaders=1!postcss-loader'),
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [{
+            loader: 'css-loader',
+            query: {
+              modules: true,
+              localIdentName: '[hash:base64]',
+              importLoaders: 1
+            }
+          }, {
+            loader: 'postcss-loader'
+          }]
+        })
       }, {
         test: /\.css$/,
         include: /node_modules/,
@@ -71,7 +81,10 @@ module.exports = {
       minChunks: Infinity,
       filename: 'vendor.js',
     }),
-    new ExtractTextPlugin('app.[chunkhash].css', { allChunks: true }),
+    new ExtractTextPlugin({
+      filename: 'app.[contenthash].css',
+      allChunks: true
+    }),
     new ManifestPlugin({
       basePath: '/',
     }),

@@ -62,7 +62,7 @@ const renderFullPage = (html, initialState) => {
         ${process.env.NODE_ENV === 'production' ? `<link rel='stylesheet' href='${assetsManifest['/app.css']}' />` : ''}
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
       </head>
-      <body>
+      <body class="app">
         <div id="root"><div>${html}</div></div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};

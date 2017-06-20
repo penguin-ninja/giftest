@@ -16,8 +16,7 @@ module.exports = {
     ],
     vendor: [
       'react',
-      'react-dom',
-      'bootstrap-loader',
+      'react-dom'
     ],
   },
 

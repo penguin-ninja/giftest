@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var ExternalsPlugin = require('webpack-externals-plugin');
+var ExternalsPlugin = require('webpack2-externals-plugin');
 
 module.exports = {
 
@@ -19,7 +19,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     modules: [
       'client',
       'node_modules',

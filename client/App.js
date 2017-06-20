@@ -6,6 +6,7 @@ import { Router } from 'react-router';
 import routes from './routes';
 
 // Base stylesheet
+require('bootstrap-loader');
 require('./main.css');
 
 export default function App(props) {
