@@ -1,19 +1,38 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Row } from 'react-bootstrap';
-import QuizListItem from 'modules/Home/components/QuizListItem';
 
-export class Home extends Component {
+import QuizListItem from 'modules/Home/components/QuizListItem';
+import selectors from 'modules/Home/redux/selectors';
+
+class QuizList extends Component {
+  _renderItems = () => {
+    const { quizzes } = this.props;
+    return quizzes.map((q) => (
+      <QuizListItem
+        key={q.get('_id')}
+        _id={q.get('_id')}
+        title={q.get('title')}
+        imageUrl={q.get('imageUrl')}
+      />
+    ));
+  }
+
   render() {
     return (
       <Row>
-        <QuizListItem
-          _id="12345"
-          title="What Does Your Name Mean In Ancient Times?"
-          imageUrl="//image.nametests.com/cache/images/promote_image/2017/06/19/d315cfe6c52bf30758493e43f09cda07/236eac7069a54c1a93ab7bae8ae2201f.jpg"
-        />
+        {this._renderItems()}
       </Row>
     );
   }
 }
 
-export default Home;
+QuizList.propTypes = {
+  quizzes: PropTypes.any.isRequired,
+};
+
+const mapStatesToProps = (state) => ({
+  quizzes: selectors.selectQuizzes(state),
+});
+
+export default connect(mapStatesToProps)(QuizList);
