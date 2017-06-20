@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
+var path = require('path');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -29,7 +30,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: [
-      'client',
+      path.resolve('./client'),
       'node_modules',
     ],
   },
@@ -69,6 +70,7 @@ module.exports = {
       'process.env': {
         CLIENT: JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development'),
+        SITE_URL: JSON.stringify(process.env.SITE_URL)
       }
     }),
     new webpack.ProvidePlugin({

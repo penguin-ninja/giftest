@@ -6,10 +6,10 @@ var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
 var cssnano = require('cssnano');
+var path = require('path');
 
 module.exports = {
   devtool: 'hidden-source-map',
-
   entry: {
     app: [
       'bootstrap-loader',
@@ -30,7 +30,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     modules: [
-      'client',
+      path.resolve('./client'),
       'node_modules',
     ],
   },
@@ -63,6 +63,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
+        SITE_URL: JSON.stringify(process.env.SITE_URL)
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
