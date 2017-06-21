@@ -10,7 +10,7 @@
     development: {
       key: '.travis/deploy_key.pem',
       user: 'ubuntu',
-      host: '',
+      host: '13.58.235.179',
       ref: 'origin/master',
       repo: 'git@github.com:socialsweetheartsgmbh/giftests.git',
       path: '/srv/giftests',
