@@ -1,6 +1,6 @@
 {
   apps: [{
-    name: 'Giftests Development',
+    name: 'giftests-dev',
     script: 'npm',
     args: 'start',
     env_development: {
