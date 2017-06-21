@@ -39,14 +39,18 @@ Mongo URL is not used at the moment.
 ### Running app in production mode
 
 `$ npm run build`
+
 `$ npm run build:server`
+
 `$ npm start`
 
 ## Deployment
 
 ### Copy pem file
 `$ mkdir .pem`
+
 `$ cp /path/to/your_key.pem ./.pem/deploy_key.pem`
+
 `$ chmod 400 ./.pem/deploy_key.pem`
 
 ### Deploying to dev server
