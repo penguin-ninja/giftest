@@ -12,8 +12,3 @@ before_install:
 script:
   - npm run build
   - npm run build:server
-after_script:
-  - eval "$(ssh-agent -s)" #start the ssh agent
-  - chmod 600 .travis/deploy_key.pem # this key should have push access
-  - ssh-add .travis/deploy_key.pem
-  - pm2 deploy development
