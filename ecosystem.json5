@@ -1,7 +1,8 @@
 {
   apps: [{
     name: 'Giftests Development',
-    script: 'npm start',
+    script: 'npm',
+    args: 'start',
     env_development: {
       NODE_ENV: 'production'
     }
