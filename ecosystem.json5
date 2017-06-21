@@ -9,7 +9,7 @@
   }],
   deploy: {
     development: {
-      key: '.travis/deploy_key.pem',
+      key: '.pem/deploy_key.pem',
       user: 'ubuntu',
       host: '13.58.235.179',
       ref: 'origin/master',
