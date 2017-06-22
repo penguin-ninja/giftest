@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+import IntlWrapper from 'modules/Intl/IntlWrapper';
 
 // Import Routes
 import routes from './routes';
@@ -12,9 +13,11 @@ require('./main.css');
 export default function App(props) {
   return (
     <Provider store={props.store}>
-      <Router history={props.history}>
-        {routes}
-      </Router>
+      <IntlWrapper>
+        <Router history={props.history}>
+          {routes}
+        </Router>
+      </IntlWrapper>
     </Provider>
   );
 }

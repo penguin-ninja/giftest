@@ -9,6 +9,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { syncHistoryWithStore } from 'react-router-redux';
 import config from '../webpack.config.dev';
+import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
 // Initialize the Express App
 const app = new Express();
@@ -110,7 +111,9 @@ app.use((req, res, next) => {
       .then(() => {
         const initialView = renderToString(
           <Provider store={store}>
-            <RouterContext {...renderProps} />
+            <IntlWrapper>
+              <RouterContext {...renderProps} />
+            </IntlWrapper>
           </Provider>
         );
         const finalState = store.getState();
