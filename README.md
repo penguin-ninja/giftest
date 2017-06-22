@@ -1,3 +1,7 @@
+# Giftest
+
+[![Build Status](https://travis-ci.com/socialsweetheartsgmbh/giftests.svg?token=VxhwSh6sNxL2ihNehWen&branch=master)](https://travis-ci.com/socialsweetheartsgmbh/giftests)
+
 ## Getting Started
 
 ### Set Up Node JS
