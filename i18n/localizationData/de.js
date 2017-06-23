@@ -1,6 +1,10 @@
 export default {
   locale: 'de',
   messages: {
+    lang: {
+      en: 'Englisch',
+      de: 'Deutsch',
+    },
     header: {
       home: 'Huis',
     },
