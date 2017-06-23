@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { NavDropdown, MenuItem } from 'react-bootstrap';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import selectors from './redux/selectors';
@@ -14,7 +14,7 @@ class LangChanger extends Component {
   render() {
     const { intl, enabledLanguages, locale } = this.props;
     return (
-      <DropdownButton id="langChanger" title={intl.formatMessage({ id: `lang.${locale}` })} onClick={this._onClick}>
+      <NavDropdown id="langChanger" title={intl.formatMessage({ id: `lang.${locale}` })} onClick={this._onClick}>
         {
           enabledLanguages.map((lang) => (
             <MenuItem eventKey={lang} key={lang} onClick={this._onLanguageChange(lang)}>
@@ -22,7 +22,7 @@ class LangChanger extends Component {
             </MenuItem>
           ))
         }
-      </DropdownButton>
+      </NavDropdown>
     );
   }
 }
