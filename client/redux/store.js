@@ -1,14 +1,19 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
-import thunk from 'redux-thunk';
-import DevTools from '../modules/Layout/components/DevTools';
+import createSagaMiddleware, { END } from 'redux-saga';
+import DevTools from 'modules/Layout/components/DevTools';
 import rootReducer from './reducers';
 
 export function configureStore(history, initialState = {}) {
+  const sagaMiddleware = createSagaMiddleware();
+
   // Middleware and store enhancers
   const enhancers = [
-    applyMiddleware(thunk, routerMiddleware(history)),
+    applyMiddleware(
+      routerMiddleware(history),
+      sagaMiddleware,
+    ),
   ];
 
   if (process.env.CLIENT && process.env.NODE_ENV === 'development') {
@@ -26,6 +31,9 @@ export function configureStore(history, initialState = {}) {
       store.replaceReducer(nextReducer);
     });
   }
+
+  store.runSaga = sagaMiddleware.run;
+  store.close = () => store.dispatch(END);
 
   return store;
 }

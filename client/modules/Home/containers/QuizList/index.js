@@ -4,23 +4,32 @@ import { Row } from 'react-bootstrap';
 
 import QuizListItem from 'modules/Home/components/QuizListItem';
 import selectors from 'modules/Home/redux/selectors';
+import actions from 'modules/Home/redux/actions';
+
+import styles from './styles.css';
 
 class QuizList extends Component {
+  componentWillMount() {
+    this.props.loadQuizlistRequest();
+  }
+
   _renderItems = () => {
-    const { quizzes } = this.props;
-    return quizzes.map((q) => (
+    const { quizlist } = this.props;
+    return quizlist.map((q) => (
       <QuizListItem
-        key={q.get('_id')}
-        _id={q.get('_id')}
-        title={q.get('title')}
-        imageUrl={q.get('imageUrl')}
+        key={`${q.get('_id')}${Math.random()}`}
+        title={q.get('question')}
+        slug={q.get('slug')}
+        imageUrl={q.get('titleImage')}
       />
     ));
   }
 
   render() {
     return (
-      <Row>
+      <Row className={styles.quizList}>
+        {this._renderItems()}
+        {this._renderItems()}
         {this._renderItems()}
       </Row>
     );
@@ -28,11 +37,16 @@ class QuizList extends Component {
 }
 
 QuizList.propTypes = {
-  quizzes: PropTypes.any.isRequired,
+  quizlist: PropTypes.any.isRequired,
+  loadQuizlistRequest: PropTypes.func.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
-  quizzes: selectors.selectQuizzes(state),
+  quizlist: selectors.selectQuizlist(state),
 });
 
-export default connect(mapStatesToProps)(QuizList);
+const mapDispatchToProps = {
+  loadQuizlistRequest: actions.loadQuizlistRequest,
+};
+
+export default connect(mapStatesToProps, mapDispatchToProps)(QuizList);

@@ -6,6 +6,7 @@ import App from './App';
 import history from './history';
 import { configureStore } from './redux/store';
 import { selectLocationState } from './redux/selectors';
+import rootSaga from './redux/sagas';
 
 // Initialize store
 const store = configureStore(history, window.__INITIAL_STATE__);
@@ -13,6 +14,8 @@ const syncedHistory = syncHistoryWithStore(history, store, {
   selectLocationState,
 });
 const mountApp = document.getElementById('root');
+
+store.runSaga(rootSaga);
 
 render(
   <AppContainer>

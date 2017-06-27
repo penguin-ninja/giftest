@@ -2,12 +2,12 @@ import { createSelector } from 'reselect';
 
 const selectModule = (state) => state.get('home');
 
-const selectQuizzes = createSelector(
+const selectQuizlist = createSelector(
   selectModule,
-  (substate) => substate.get('quizzes')
+  (substate) => substate.get('quizlist')
 );
 
 export default {
   selectModule,
-  selectQuizzes,
+  selectQuizlist,
 };
