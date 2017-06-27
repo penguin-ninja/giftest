@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
   question: { type: String, required: true },
-  slug: { type: String, required: true },
+  slug: { type: String },
   titleImage: { type: String, required: true },
   resultImage: { type: String, required: true },
   backgroundImage: { type: String, required: true },
@@ -16,7 +16,7 @@ const quizSchema = new Schema({
   }],
 });
 
-quizSchema.pre('save', (next) => {
+quizSchema.pre('save', function (next) { // eslint-disable-line
   generateSlug(this.constructor, this.question)
   .then((slug) => {
     this.slug = slug;

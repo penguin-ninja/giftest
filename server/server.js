@@ -2,6 +2,7 @@ import Express from 'express';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import path from 'path';
+import mongoose from 'mongoose';
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -37,11 +38,33 @@ import routes from '../client/routes';
 import { fetchComponentData } from './utils/fetchData';
 import serverConfig from './config';
 
+import quizRoutes from './routes/quiz.route';
+import addDefaultQuiz from './seeds/defaultQuiz';
+
 // Apply body Parser and server public assets and routes
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
+app.use('/api', quizRoutes);
+
+// Set native promises as mongoose promise
+mongoose.Promise = global.Promise;
+
+// MongoDB Connection
+mongoose.connect(serverConfig.mongoURL, (error) => {
+  if (error) {
+    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+    throw error;
+  }
+
+  console.log('Connected to MongoDB'); // eslint-disable-line
+
+  // feed some dummy data in DB.
+  if (process.env.MONGO_SEED) {
+    addDefaultQuiz();
+  }
+});
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

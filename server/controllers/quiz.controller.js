@@ -1,6 +1,9 @@
 import _ from 'lodash';
+import mongoose from 'mongoose';
 import Quiz from '../models/quiz';
 import errorResponse from '../utils/errorResponse';
+
+const ObjectId = mongoose.Types.ObjectId;
 
 // GET list
 export function getQuizList(req, res) {
@@ -65,16 +68,17 @@ export function deleteQuiz(req, res) {
 /**
  * Middleware to get quiz by id or slug
  */
-export function getQuizMiddleware(req, res, next, _id) {
-  return Quiz.findOne({
-    $or: {
-      _id,
-      slug: _id,
-    },
-  })
+export function getQuizMiddleware(req, res, next, slug) {
+  let query = { slug };
+
+  if (ObjectId.isValid(slug)) {
+    query = { _id: new ObjectId(slug) };
+  }
+
+  return Quiz.findOne(query)
   .then((quiz) => {
     req.quiz = quiz;
-    return next;
+    return next();
   })
   .catch((err) => {
     errorResponse(res, err);
