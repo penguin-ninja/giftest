@@ -1,7 +1,9 @@
 var webpack = require('webpack');
 var cssnext = require('postcss-cssnext');
+var postcssMedia = require('postcss-custom-media');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
+var postcssNesting = require('postcss-nesting');
 var path = require('path');
 
 module.exports = {
@@ -80,6 +82,17 @@ module.exports = {
       options: {
         context: __dirname,
         postcss: () => [
+          postcssNesting(),
+          postcssMedia({
+            extensions: {
+              '--phone-xs': '(max-width: 480px) and (min-width: 320px)',
+              '--phone-sm': '(max-width: 568px)',
+              '--phone-md': '(max-width: 767px) and (min-width: 569px)',
+              '--tablet': '(min-width: 768px)',
+              '--desktop': '(min-width: 992px)',
+              '--large-desktop': '(min-width: 1200px)',
+            }
+          }),
           postcssFocus(),
           cssnext({
             browsers: ['last 2 versions', 'IE > 10'],

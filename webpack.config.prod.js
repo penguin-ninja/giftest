@@ -5,6 +5,8 @@ var ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 var cssnext = require('postcss-cssnext');
 var postcssFocus = require('postcss-focus');
 var postcssReporter = require('postcss-reporter');
+var postcssMedia = require('postcss-custom-media');
+var postcssNesting = require('postcss-nesting');
 var cssnano = require('cssnano');
 var path = require('path');
 
@@ -104,6 +106,17 @@ module.exports = {
       options: {
         postcss: () => [
           postcssFocus(),
+          postcssNesting(),
+          postcssMedia({
+            extensions: {
+              '--phone-xs': '(max-width: 480px) and (min-width: 320px)',
+              '--phone-sm': '(max-width: 568px)',
+              '--phone-md': '(max-width: 767px) and (min-width: 569px)',
+              '--tablet': '(min-width: 768px)',
+              '--desktop': '(min-width: 992px)',
+              '--large-desktop': '(min-width: 1200px)',
+            }
+          }),
           cssnext({
             browsers: ['last 2 versions', 'IE > 10'],
           }),
