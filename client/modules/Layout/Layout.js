@@ -6,6 +6,8 @@ import DevTools from './components/DevTools';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+import favicon from './favicon.png';
+
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -22,17 +24,14 @@ class Layout extends Component {
         {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
           <Helmet
-            title="Gifttest"
+            title="Animated Test"
             meta={[
               { charset: 'utf-8' },
-              {
-                'http-equiv': 'X-UA-Compatible',
-                content: 'IE=edge',
-              },
-              {
-                name: 'viewport',
-                content: 'width=device-width, initial-scale=1',
-              },
+              { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
+              { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            ]}
+            link={[
+              { rel: 'icon', href: favicon },
             ]}
           />
           <div>
