@@ -17,6 +17,7 @@ module.exports = {
       './client/index.js',
     ],
     vendor: [
+      'bootstrap-loader',
       'react',
       'react-dom'
     ],
