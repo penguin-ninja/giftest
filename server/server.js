@@ -11,6 +11,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import { syncHistoryWithStore } from 'react-router-redux';
 import config from '../webpack.config.dev';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
+import waitAll from '../client/redux/sagas/waitAll';
 
 // Initialize the Express App
 const app = new Express();
@@ -35,7 +36,6 @@ import Helmet from 'react-helmet';
 
 // Import required modules
 import routes from '../client/routes';
-import { fetchComponentData } from './utils/fetchData';
 import serverConfig from './config';
 
 import quizRoutes from './routes/quiz.route';
@@ -130,7 +130,14 @@ app.use((req, res, next) => {
       return next();
     }
 
-    return fetchComponentData(store, renderProps.components, renderProps.params)
+    const preloaders = renderProps.components
+      .filter((component) => component && component.preload)
+      .map((component) => component.preload(renderProps.params, req))
+      .reduce((result, preloader) => result.concat(preloader), []);
+
+    const runTasks = store.runSaga(waitAll(preloaders));
+
+    return runTasks.done
       .then(() => {
         const initialView = renderToString(
           <Provider store={store}>
