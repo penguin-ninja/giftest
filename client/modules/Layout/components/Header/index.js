@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
+import { IndexLinkContainer } from 'react-router-bootstrap';
 import LangChanger from 'modules/Intl/LangChanger';
 
 import logo from './logo.png';
@@ -12,15 +14,17 @@ class Header extends Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/" className={styles.logoLink}>
+            <Link to="/" className={styles.logoLink}>
               <img alt="logo" src={logo} className={styles.logoImg} />
-            </a>
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="#"><FormattedMessage id="header.home" /></NavItem>
+            <IndexLinkContainer to={{ pathname: '/' }}>
+              <NavItem eventKey={1}><FormattedMessage id="header.home" /></NavItem>
+            </IndexLinkContainer>
             <LangChanger />
           </Nav>
         </Navbar.Collapse>
