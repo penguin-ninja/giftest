@@ -1,0 +1,32 @@
+.facebookButton {
+  position: relative;
+  padding: 8px 20px 8px 40px;
+  border: 2px solid #3d518b;
+  border-radius: 6px;
+  background-clip: padding-box;
+  background-color: #ebedf5;
+  background-image: linear-gradient(to top,#3f599d 0%,#4f67a7 100%);
+  color: #fff;
+  text-shadow: 0 -2px 0 #425993;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 15px;
+  word-wrap: break-word;
+  white-space: normal;
+  text-decoration: none!important;
+  cursor: pointer;
+}
+
+.fbImage {
+  width: 19px;
+  height: 19px;
+  position: absolute;
+  top: 9px;
+  left: 11px;
+}
+
+.buttonText {
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 -2px 0 #425993;
+}
