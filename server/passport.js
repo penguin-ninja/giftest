@@ -1,6 +1,6 @@
 import passport from 'passport';
 import passportFacebook from 'passport-facebook';
-import User from './models/User';
+import User from './models/user';
 import config from './config';
 
 const FacebookStrategy = passportFacebook.Strategy;
