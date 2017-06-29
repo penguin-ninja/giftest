@@ -16,5 +16,8 @@ export default {
       jobs: 'Jobs',
       becomeAPartner: 'Become a partner',
     },
+    quiz: {
+      description: 'Please login with Facebook to see your result',
+    },
   },
 };
