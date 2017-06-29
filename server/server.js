@@ -1,4 +1,5 @@
 import Express from 'express';
+import session from 'express-session';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import path from 'path';
@@ -40,6 +41,18 @@ import serverConfig from './config';
 
 import quizRoutes from './routes/quiz.route';
 import addDefaultQuiz from './seeds/defaultQuiz';
+import setupPassport from './passport';
+
+app.use(session({
+  saveUninitialized: true,
+  resave: true,
+  secret: serverConfig.sessionSecret,
+  cookie: {
+    maxAge: serverConfig.cookie.maxAge,
+  },
+}));
+
+setupPassport(app);
 
 // Apply body Parser and server public assets and routes
 app.use(compression());
@@ -87,6 +100,26 @@ const renderFullPage = (html, initialState) => {
         <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'/>
       </head>
       <body class="app">
+        <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId            : '${serverConfig.facebook.clientID}',
+              autoLogAppEvents : true,
+              xfbml            : true,
+              version          : 'v2.9'
+            });
+            FB.AppEvents.logPageView();
+          };
+
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+        </script>
+
         <div id="root"><div>${html}</div></div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};

@@ -1,6 +1,15 @@
 const config = {
   mongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/giftests',
   port: process.env.PORT || 3000,
+  facebook: {
+    clientID: process.env.FB_CLIENT_ID || '',
+    clientSecret: process.env.FB_CLIENT_SECRET || '',
+    callbackURL: process.env.FB_CALLBACK_URL || '',
+  },
+  sessionSecret: process.env.SESSION_SECRET || 'AnimatedtestSESS',
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000,
+  },
   morphConfig: {
     debugMode: 'y',
     showAPITrace: 'n',

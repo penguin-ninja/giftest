@@ -7,6 +7,7 @@ const userSchema = new Schema({
   lastName: { type: String, required: true, trim: true, default: '' },
   email: { type: String, default: '' },
   profileImage: { type: String },
+  fbId: { type: String },
   fbAccessToken: { type: String },
   fbRefreshToken: { type: String },
 });
