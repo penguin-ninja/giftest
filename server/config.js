@@ -10,7 +10,9 @@ const config = {
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
   },
+  morphApiUrl: process.env.MORPH_API_URL || 'http://localhost',
   morphConfig: {
+    apiKey: process.env.MORPH_API_KEY || '',
     debugMode: 'y',
     showAPITrace: 'n',
     lang: 'en',
@@ -50,7 +52,7 @@ const config = {
     custImg4_h: 250,
     custImg4_type: 'morphImg',
     morphImg1: {
-      srcCustImgID: '2',
+      srcCustImgID: '1',
       destCustImgID: '3',
       w: '200',
       h: '200',
