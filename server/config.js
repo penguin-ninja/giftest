@@ -13,7 +13,7 @@ const config = {
   morphApiUrl: process.env.MORPH_API_URL || 'http://localhost',
   morphConfig: {
     apiKey: process.env.MORPH_API_KEY || '',
-    debugMode: 'y',
+    debugMode: 'n',
     showAPITrace: 'n',
     lang: 'en',
     nullTemplate: 'y',
@@ -33,7 +33,7 @@ const config = {
     custImg2_effect: 'A',
     custImg2_w: 200,
     custImg2_h: 200,
-    custImg3_effectA_param: {
+    custImg3_effectB_param: {
       op: 'faceDetect',
       drawBox: 'n',
       cropToFace: 'y',
@@ -52,7 +52,7 @@ const config = {
     custImg4_h: 250,
     custImg4_type: 'morphImg',
     morphImg1: {
-      srcCustImgID: '1',
+      srcCustImgID: '2',
       destCustImgID: '3',
       w: '200',
       h: '200',

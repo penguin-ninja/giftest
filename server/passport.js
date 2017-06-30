@@ -30,7 +30,7 @@ function setupFacebook() {
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           email: profile.emails ? profile.emails[0].value : undefined,
-          profileImage: (profile.id) ? `//graph.facebook.com/${profile.id}/picture?type=large` : undefined,
+          profileImage: (profile.id) ? `https://graph.facebook.com/${profile.id}/picture?type=large` : undefined,
         });
 
         newUser.save(done);
