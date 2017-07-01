@@ -14,7 +14,12 @@ export function* loadResultRequest(action) {
   try {
     const { resultId } = action;
     const data = yield call(callAPI.bind(null, `result/${resultId}`));
-    yield put(loadResultSuccess(data));
+
+    if (data.error) {
+      throw data.error;
+    }
+
+    yield put(loadResultSuccess(data.response));
   } catch (e) {
     yield put(loadResultError(e));
   }

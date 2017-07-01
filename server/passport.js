@@ -107,7 +107,7 @@ export default function setupPassport(app) {
     }
   );
 
-  app.get('/me', (req, res) => {
+  app.get('/api/me', (req, res) => {
     if (req.user) {
       res.json(req.user);
     } else {

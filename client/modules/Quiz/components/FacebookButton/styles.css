@@ -17,12 +17,24 @@
   cursor: pointer;
 }
 
+.hasUser {
+  padding-right:50px;
+}
+
 .fbImage {
   width: 19px;
   height: 19px;
   position: absolute;
   top: 9px;
   left: 11px;
+}
+
+.profileImg {
+  width: 38px;
+  height: 38px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .buttonText {

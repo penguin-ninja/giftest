@@ -1,5 +1,11 @@
 import { createSelector } from 'reselect';
 
+const selectMain = (state) => state.get('main');
+const selectUser = createSelector(
+  selectMain,
+  (substate) => substate.get('user')
+);
+
 const selectHome = (state) => state.get('home');
 
 const selectQuizlist = createSelector(
@@ -24,4 +30,5 @@ export default {
   selectQuizlist,
   selectQuizDetail,
   selectSlug,
+  selectUser,
 };

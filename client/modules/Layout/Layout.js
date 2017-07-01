@@ -1,17 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-
-// Import Components
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import DevTools from './components/DevTools';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
+import actions from 'modules/Layout/redux/actions';
+import { loadUserDetailRequest as loadUserDetailSaga } from 'modules/Layout/redux/sagas';
 import favicon from './favicon.png';
 
 class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = { isMounted: false };
+  }
+
+  componentWillMount() {
+    this.props.loadUserDetailRequest();
   }
 
   componentDidMount() {
@@ -45,8 +49,20 @@ class Layout extends Component {
   }
 }
 
+Layout.preload = () => ([
+  [loadUserDetailSaga],
+]);
+
 Layout.propTypes = {
   children: PropTypes.object.isRequired,
+  loadUserDetailRequest: PropTypes.func.isRequired,
 };
 
-export default Layout;
+const mapStatesToProps = () => ({
+});
+
+const mapDispatchToProps = {
+  loadUserDetailRequest: actions.loadUserDetailRequest,
+};
+
+export default connect(mapStatesToProps, mapDispatchToProps)(Layout);

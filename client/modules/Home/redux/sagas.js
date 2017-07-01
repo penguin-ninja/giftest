@@ -9,7 +9,12 @@ import { LOAD_QUIZLIST_REQUEST } from './constants';
 export function* loadQuizlistRequest() {
   try {
     const data = yield call(callAPI.bind(null, 'quizzes'));
-    yield put(loadQuizlistSuccess(data));
+
+    if (data.error) {
+      throw data.error;
+    }
+
+    yield put(loadQuizlistSuccess(data.response));
   } catch (e) {
     yield put(loadQuizlistError(e));
   }

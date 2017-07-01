@@ -22,12 +22,16 @@ export function* loadQuizDetailRequest(action) {
       quiz = quizlist.find((q) => q.get('slug') === slug);
 
       if (quiz) {
-        data = { quiz: quiz.toJS() };
+        data = { response: { quiz: quiz.toJS() } };
       } else {
         data = yield call(callAPI.bind(null, `quizzes/${slug}`));
       }
 
-      yield put(loadQuizDetailSuccess(data));
+      if (data.error) {
+        throw data.error;
+      }
+
+      yield put(loadQuizDetailSuccess(data.response));
       yield put(setSlug(slug));
     }
   } catch (e) {
