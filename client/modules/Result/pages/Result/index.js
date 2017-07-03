@@ -42,22 +42,22 @@ class Result extends Component {
 
     const result = resultImmutable.toJS();
     const image = result.image || `${process.env.AWS_S3_URL}/${process.env.AWS_S3_FOLDER}/${result._id}.gif`;
-    let ogUrl = `${process.env.SITE_URL}${path}`;
+    // const ogUrl = `${process.env.SITE_URL}${path}`;
     console.log(userAgent);
-    if (userAgent.indexOf('facebookexternalhit') > -1 || userAgent.indexOf('facebot') > -1) {
-      ogUrl = image;
-    }
+    // if (userAgent.indexOf('facebookexternalhit') > -1 || userAgent.indexOf('facebot') > -1) {
+    //   ogUrl = image;
+    // }
 
     return (
       <div className="container">
         <Helmet>
           <title>{`Animatedtest - ${result.user.firstName}'s Result`}</title>
           <meta name="description" content={result.quiz.question} />
-          <meta property="og:url" content={ogUrl} />
+          <meta property="og:url" content={image} />
           <meta property="og:title" content={result.quiz.question} />
           <meta property="og:description" content={result.quiz.question} />
-          <meta property="og:type" content="article" />
-          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:type" content="video.other" />
+          <meta property="og:image:type" content="image/gif" />
           <meta property="og:image" content={image} />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.resultContainer)}>
