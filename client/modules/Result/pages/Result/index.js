@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import Helmet from 'react-helmet';
+import ua from 'isomorphic-user-agent';
 import selectors from 'modules/Result/redux/selectors';
 import actions from 'modules/Result/redux/actions';
 import FacebookShareButton from 'modules/Result/components/FacebookShareButton';
@@ -40,13 +41,18 @@ class Result extends Component {
 
     const result = resultImmutable.toJS();
     const image = result.image || `${process.env.AWS_S3_URL}/${process.env.AWS_S3_FOLDER}/${result._id}.gif`;
+    const userAgent = ua().toLowerCase();
+    let ogUrl = `${process.env.SITE_URL}${path}`;
+    if (userAgent.indexOf('facebookexternalhit') > -1 || userAgent.indexOf('facebot') > -1) {
+      ogUrl = image;
+    }
 
     return (
       <div className="container">
         <Helmet>
           <title>{`Animatedtest - ${result.user.firstName}'s Result`}</title>
           <meta name="description" content={result.quiz.question} />
-          <meta property="og:url" content={`${process.env.SITE_URL}${path}`} />
+          <meta property="og:url" content={ogUrl} />
           <meta property="og:title" content={result.quiz.question} />
           <meta property="og:description" content={result.quiz.question} />
           <meta property="og:type" content="article" />
