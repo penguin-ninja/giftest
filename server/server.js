@@ -144,6 +144,7 @@ const renderError = (err) => {
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
+  global.userAgent = req.headers['user-agent'];
   const memoryHistory = createMemoryHistory(req.url);
   const store = configureStore(memoryHistory);
   const history = syncHistoryWithStore(memoryHistory, store, {
