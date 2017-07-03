@@ -16,7 +16,7 @@
       repo: 'git@github.com:socialsweetheartsgmbh/giftests.git',
       path: '/srv/giftests',
       'pre-deploy': '',
-      'post-deploy': 'npm install && npm run build && npm run build:server && pm2 startOrRestart ecosystem.json5 --env development'
+      'post-deploy': 'npm install && npm run clean && npm run build && npm run build:server && pm2 startOrRestart ecosystem.json5 --env development'
     }
   }
 }

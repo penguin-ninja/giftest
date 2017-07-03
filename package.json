@@ -6,6 +6,7 @@
     "node": ">=7"
   },
   "scripts": {
+    "clean": "rm -rf dist/",
     "test": "npm run build && npm run build:server",
     "dev": "cross-env BABEL_DISABLE_CACHE=1 NODE_ENV=development nodemon index.js",
     "start": "cross-env NODE_ENV=production node index.js",

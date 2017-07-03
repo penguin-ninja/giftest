@@ -10,6 +10,13 @@ var postcssNesting = require('postcss-nesting');
 var cssnano = require('cssnano');
 var path = require('path');
 
+// initializing env variables for building client
+try {
+  require('dotenv').config();
+} catch (e) {
+  console.log('Could not find .env file. Continuing..');
+}
+
 module.exports = {
   devtool: 'hidden-source-map',
   entry: {
