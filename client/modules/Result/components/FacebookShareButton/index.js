@@ -8,9 +8,13 @@ import fbImage from './next-button-f.png';
 
 class FacebookShareButton extends Component {
   _onShare = () => {
-    const { path } = this.props;
+    const { result: resultImmutable, path } = this.props;
+    const result = resultImmutable.toJS();
+
     FB.ui({
       method: 'share',
+      caption: result.quiz.question,
+      hashtag: '#animatedtest',
       href: `${process.env.SITE_URL}${path}`,
     });
   }
@@ -26,10 +30,12 @@ class FacebookShareButton extends Component {
 }
 
 FacebookShareButton.propTypes = {
+  result: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
+  result: selectors.selectResult(state),
   path: selectors.selectPath(state),
 });
 

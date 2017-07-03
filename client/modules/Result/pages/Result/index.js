@@ -33,7 +33,7 @@ class Result extends Component {
   }
 
   render() {
-    const { result: resultImmutable } = this.props;
+    const { result: resultImmutable, path } = this.props;
     if (!resultImmutable) {
       return <div>Loading...</div>;
     }
@@ -46,12 +46,12 @@ class Result extends Component {
         <Helmet>
           <title>{`Animatedtest - ${result.user.firstName}'s Result`}</title>
           <meta name="description" content={result.quiz.question} />
-          <meta property="og:url" content={image} />
+          <meta property="og:url" content={`${process.env.SITE_URL}${path}`} />
           <meta property="og:title" content={result.quiz.question} />
           <meta property="og:description" content={result.quiz.question} />
-          <meta property="og:type" content="video.other" />
-          <meta property="og:image:type" content="image/gif" />
-          <meta property="og:image" content={result.image} />
+          <meta property="og:type" content="article" />
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image" content={image} />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.resultContainer)}>
           <h2>{result.quiz.question}</h2>
@@ -73,6 +73,7 @@ Result.preload = (params) => ([
 Result.propTypes = {
   params: PropTypes.object.isRequired,
   result: PropTypes.any.isRequired,
+  path: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadResultRequest: PropTypes.func.isRequired,
   generateResultRequest: PropTypes.func.isRequired,
