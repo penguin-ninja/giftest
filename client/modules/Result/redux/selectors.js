@@ -12,7 +12,10 @@ const selectLoading = createSelector(
   (substate) => substate.get('loading')
 );
 
+const selectPath = (state) => state.get('route').get('locationBeforeTransitions').pathname;
+
 export default {
   selectResult,
   selectLoading,
+  selectPath,
 };

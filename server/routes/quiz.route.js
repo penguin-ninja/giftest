@@ -16,6 +16,9 @@ router.route('/quizzes/:slug')
 router.route('/result/:resultId')
   .get(ResultController.getResult);
 
+router.route('/result/:resultId/generateResult')
+  .get(ResultController.generateResult);
+
 router.param('slug', QuizController.getQuizMiddleware);
 router.param('resultId', ResultController.getResultMiddleware);
 

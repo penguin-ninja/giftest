@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Helmet from 'react-helmet';
 import selectors from 'modules/Result/redux/selectors';
 import actions from 'modules/Result/redux/actions';
+import FacebookShareButton from 'modules/Result/components/FacebookShareButton';
 import { loadResultRequest as loadResultSaga } from 'modules/Result/redux/sagas';
 
 import styles from './styles.css';
@@ -13,9 +14,27 @@ class Result extends Component {
     this.props.loadResultRequest(this.props.params.resultId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.result) {
+      const image = nextProps.result && nextProps.result.get('image');
+      if (!image && !this.props.loading) {
+        this.props.generateResultRequest(this.props.params.resultId);
+      }
+    }
+  }
+
+  _renderResult = (result) => {
+    return (
+      <div className={styles.imgContainer}>
+        <img className={cx('img-responsive', styles.image)} src={result.image} alt={result.quiz.question} />
+        <FacebookShareButton />
+      </div>
+    );
+  }
+
   render() {
-    const { result: resultImmutable, loading } = this.props;
-    if (loading || !resultImmutable) {
+    const { result: resultImmutable, path } = this.props;
+    if (!resultImmutable) {
       return <div>Loading...</div>;
     }
 
@@ -26,12 +45,20 @@ class Result extends Component {
         <Helmet>
           <title>{`Animatedtest - ${result.user.firstName}'s Result`}</title>
           <meta name="description" content={result.quiz.question} />
+          <meta property="og:url" content={`${process.env.SITE_URL}${path}`} />
+          <meta property="og:title" content={result.quiz.question} />
+          <meta property="og:description" content={result.quiz.question} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={result.image} />
+          <meta property="og:image:type" content="image/gif" />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.resultContainer)}>
           <h2>{result.quiz.question}</h2>
-          <div className={styles.imgContainer}>
-            <img className="img-responsive" src={result.image} alt={result.quiz.question} />
-          </div>
+          {
+            result.image ?
+              this._renderResult(result) :
+              <h3>Calculating result...</h3>
+          }
         </div>
       </div>
     );
@@ -45,17 +72,21 @@ Result.preload = (params) => ([
 Result.propTypes = {
   params: PropTypes.object.isRequired,
   result: PropTypes.any.isRequired,
+  path: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadResultRequest: PropTypes.func.isRequired,
+  generateResultRequest: PropTypes.func.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
   result: selectors.selectResult(state),
   loading: selectors.selectLoading(state),
+  path: selectors.selectPath(state),
 });
 
 const mapDispatchToProps = {
   loadResultRequest: actions.loadResultRequest,
+  generateResultRequest: actions.generateResultRequest,
 };
 
 export default connect(mapStatesToProps, mapDispatchToProps)(Result);

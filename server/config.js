@@ -6,6 +6,14 @@ const config = {
     clientSecret: process.env.FB_CLIENT_SECRET || '',
     callbackURL: process.env.FB_CALLBACK_URL || '',
   },
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+    region: process.env.AWS_REGION || 'us-east-2',
+    s3Bucket: process.env.AWS_S3_BUCKET || 'animated.test.com',
+    s3Url: process.env.AWS_S3_URL || 'http://animatedtest.com',
+    s3Folder: process.env.AWS_S3_FOLDER || 'dev',
+  },
   sessionSecret: process.env.SESSION_SECRET || 'AnimatedtestSESS',
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,

@@ -6,4 +6,10 @@
 .imgContainer {
   max-width: 300px;
   margin: 20px auto;
+  text-align: center;
+}
+
+.imgContainer .image {
+  width: 100%;
+  margin-bottom: 15px;
 }

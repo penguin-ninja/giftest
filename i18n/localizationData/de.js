@@ -20,5 +20,8 @@ export default {
       loginFacebook: 'Log In Facebook',
       description: 'Logge Dich bitte mit Facebook ein um Dein Ergebnis zu sehen',
     },
+    result: {
+      shareFacebook: 'Share on Facebook',
+    },
   },
 };

@@ -21,6 +21,13 @@ export function loadResultError(error) {
   };
 }
 
+export function generateResultRequest(resultId) {
+  return {
+    type: CONSTANTS.GENERATE_RESULT_REQUEST,
+    resultId,
+  };
+}
+
 export function setLoading(loading) {
   return {
     type: CONSTANTS.SET_LOADING,
@@ -32,5 +39,6 @@ export default {
   loadResultRequest,
   loadResultSuccess,
   loadResultError,
+  generateResultRequest,
   setLoading,
 };

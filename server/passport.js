@@ -4,7 +4,6 @@ import User from './models/user';
 import Quiz from './models/quiz';
 import Result from './models/result';
 import config from './config';
-import generateMorphedImg from './utils/generateMorphedImg';
 
 const FacebookStrategy = passportFacebook.Strategy;
 
@@ -73,26 +72,15 @@ export default function setupPassport(app) {
     },
     (req, res) => {
       const slug = req.query.slug;
-      let tmpQuiz;
       Quiz.findOne({ slug })
       .then((quiz) => {
         if (!quiz) {
           throw new Error('Quiz not found with that slug');
         }
-        tmpQuiz = quiz;
-        const morphParams = {
-          background: quiz.backgroundImage,
-          custImg2_url: req.user.profileImage,
-          custImg3_url: quiz.resultImage,
-        };
 
-        return generateMorphedImg(morphParams);
-      })
-      .then((imgUrl) => {
         const result = new Result({
           user: req.user._id,
-          quiz: tmpQuiz._id,
-          image: imgUrl,
+          quiz: quiz._id,
         });
 
         return result.save();
