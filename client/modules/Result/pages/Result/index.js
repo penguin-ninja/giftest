@@ -57,8 +57,9 @@ class Result extends Component {
           <meta property="og:title" content={result.quiz.question} />
           <meta property="og:description" content={result.quiz.question} />
           <meta property="og:type" content="video.other" />
-          <meta property="og:image:type" content="image/gif" />
           <meta property="og:image" content={image} />
+          <meta property="og:image:width" content="300" />
+          <meta property="og:image:height" content="335" />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.resultContainer)}>
           <h2>{result.quiz.question}</h2>

@@ -25,6 +25,7 @@ export default function uploadS3(imgUrl, id) {
         Key: key,
         ACL: 'public-read',
         Body: body,
+        ContentType: 'image/gif',
       }, (error) => {
         if (error) {
           return reject(error);
