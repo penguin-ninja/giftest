@@ -43,6 +43,7 @@ class Result extends Component {
     const image = result.image || `${process.env.AWS_S3_URL}/${process.env.AWS_S3_FOLDER}/${result._id}.gif`;
     const userAgent = ua().toLowerCase();
     let ogUrl = `${process.env.SITE_URL}${path}`;
+    console.log(userAgent);
     if (userAgent.indexOf('facebookexternalhit') > -1 || userAgent.indexOf('facebot') > -1) {
       ogUrl = image;
     }
