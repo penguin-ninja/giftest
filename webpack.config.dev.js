@@ -72,7 +72,10 @@ module.exports = {
       'process.env': {
         CLIENT: JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development'),
-        SITE_URL: JSON.stringify(process.env.SITE_URL)
+        SITE_URL: JSON.stringify(process.env.SITE_URL),
+        FB_CLIENT_ID: JSON.stringify(process.env.FB_CLIENT_ID),
+        AWS_S3_URL: JSON.stringify(process.env.AWS_S3_URL),
+        AWS_S3_FOLDER: JSON.stringify(process.env.AWS_S3_FOLDER)
       }
     }),
     new webpack.ProvidePlugin({

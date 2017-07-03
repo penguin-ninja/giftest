@@ -9,7 +9,7 @@ export function getResult(req, res) {
   res.json({ result });
 }
 
-// Generated Morph Image
+// Generates Morph Image
 export function generateResult(req, res) {
   const { quiz, user } = req.result;
 
@@ -21,10 +21,11 @@ export function generateResult(req, res) {
 
   generateMorphedImg(morphParams)
   .then((imgUrl) => {
-    return uploadS3(imgUrl);
+    return uploadS3(imgUrl, req.result._id.toString());
   })
   .then((s3Url) => {
     req.result.image = s3Url;
+    req.result.generated = true;
     return req.result.save();
   })
   .then((result) => {

@@ -27,17 +27,15 @@ class Layout extends Component {
       <div>
         {this.state.isMounted && !window.devToolsExtension && process.env.NODE_ENV === 'development' && <DevTools />}
         <div>
-          <Helmet
-            title="Animated Test"
-            meta={[
-              { charset: 'utf-8' },
-              { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
-              { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            ]}
-            link={[
-              { rel: 'icon', href: favicon },
-            ]}
-          />
+          <Helmet>
+            <title>Animated Test</title>
+            <meta charSet="utf-8" />
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta property="fb:app_id" content={process.env.FB_CLIENT_ID} />
+            <meta property="og:site_name" content="Animatedtest" />
+            <link rel="icon" href={favicon} />
+          </Helmet>
           <div>
             <Header />
             {this.props.children}

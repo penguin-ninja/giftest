@@ -40,7 +40,6 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "express-session": "^1.15.3",
-    "guid": "0.0.12",
     "immutable": "^3.8.1",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",

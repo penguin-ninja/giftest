@@ -1,6 +1,5 @@
 import request from 'request';
 import AWS from 'aws-sdk';
-import guid from 'guid';
 import config from '../config';
 
 const s3 = new AWS.S3({
@@ -9,7 +8,7 @@ const s3 = new AWS.S3({
   region: config.aws.region,
 });
 
-export default function uploadS3(imgUrl) {
+export default function uploadS3(imgUrl, id) {
   return new Promise((resolve, reject) => {
     request({
       url: imgUrl,
@@ -19,7 +18,6 @@ export default function uploadS3(imgUrl) {
         return reject(err);
       }
 
-      const id = guid.raw();
       const key = `${config.aws.s3Folder}/${id}.gif`;
 
       return s3.putObject({
