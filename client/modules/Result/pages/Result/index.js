@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
 import selectors from 'modules/Result/redux/selectors';
 import actions from 'modules/Result/redux/actions';
@@ -33,20 +34,13 @@ class Result extends Component {
   }
 
   render() {
-    const { result: resultImmutable, path } = this.props;
+    const { result: resultImmutable } = this.props;
     if (!resultImmutable) {
       return <div>Loading...</div>;
     }
 
-    const userAgent = global.userAgent || '';
-
     const result = resultImmutable.toJS();
     const image = result.image || `${process.env.AWS_S3_URL}/${process.env.AWS_S3_FOLDER}/${result._id}.gif`;
-    // const ogUrl = `${process.env.SITE_URL}${path}`;
-    console.log(userAgent);
-    // if (userAgent.indexOf('facebookexternalhit') > -1 || userAgent.indexOf('facebot') > -1) {
-    //   ogUrl = image;
-    // }
 
     return (
       <div className="container">
@@ -66,7 +60,7 @@ class Result extends Component {
           {
             result.image ?
               this._renderResult(result) :
-              <h3>Calculating result...</h3>
+              <h3><FormattedMessage id="result.calculating" /></h3>
           }
         </div>
       </div>
@@ -81,7 +75,6 @@ Result.preload = (params) => ([
 Result.propTypes = {
   params: PropTypes.object.isRequired,
   result: PropTypes.any.isRequired,
-  path: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   loadResultRequest: PropTypes.func.isRequired,
   generateResultRequest: PropTypes.func.isRequired,

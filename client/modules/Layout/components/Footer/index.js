@@ -9,7 +9,7 @@ class Footer extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 col-lg-10 text-center">
+          <div className="col-xs-12 text-center">
             <footer className={styles.footer}>
               <p>
                 <a href="//www.socialsweethearts.de/terms.html" target="_blank" rel="noopener noreferrer">
@@ -21,7 +21,7 @@ class Footer extends Component {
                 <a href="//www.socialsweethearts.de/de_DE/imprint" target="_blank" rel="noopener noreferrer">
                   <FormattedMessage id="footer.imprint" />
                 </a> ·
-                <a href="/accounts/feedback/?url=https://en.nametests.com/" target="_blank" rel="noopener noreferrer">
+                <a href="https://en.nametests.com/accounts/feedback/?url=https://animatedtest.com/" target="_blank" rel="noopener noreferrer">
                   <FormattedMessage id="footer.feedback" />
                 </a> ·
                 <a href="//www.socialsweethearts.de/en_US/it-career" target="_blank" rel="noopener noreferrer">
