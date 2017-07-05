@@ -29,8 +29,6 @@ class QuizList extends Component {
     return (
       <Row className={styles.quizList}>
         {this._renderItems()}
-        {this._renderItems()}
-        {this._renderItems()}
       </Row>
     );
   }

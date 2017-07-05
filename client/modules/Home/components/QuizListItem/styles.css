@@ -2,7 +2,7 @@
   margin: 5px;
 
   display: flex;
-  flex-grow: 1;
+  flex-grow: 1 31.9%;
 
   width: 31.9%;
   width: calc(33% - 10px);
@@ -15,18 +15,21 @@
 
 @media (max-width: 767px) {
   .quizListItem {
+    flex-grow: 1 50%;
     width: calc(50% - 10px);
   }
 }
 
 @media (max-width: 568px) {
   .quizListItem {
+    flex-grow: 1;
     width: calc(100% - 10px);
   }
 }
 
 @media (max-width: 480px) {
   .quizListItem {
+    flex-grow: 1;
     width: 100%;
   }
 }

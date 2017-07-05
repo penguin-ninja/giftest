@@ -2,6 +2,7 @@ const config = {
   mongoURL: process.env.MONGO_URL || 'mongodb://localhost:27017/giftests',
   port: process.env.PORT || 3000,
   facebook: {
+    apiVersion: 'v2.9',
     clientID: process.env.FB_CLIENT_ID || '',
     clientSecret: process.env.FB_CLIENT_SECRET || '',
     callbackURL: process.env.FB_CALLBACK_URL || '',

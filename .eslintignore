@@ -4,3 +4,4 @@ webpack.config.server.js
 webpack.config.babel.js
 ./index.js
 ecosystem.json5
+vendors/*.es6.js

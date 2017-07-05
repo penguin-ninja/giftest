@@ -12,6 +12,7 @@ function setupFacebook() {
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL,
+    scope: ['user_photos', 'user_posts', 'user_tagged_places', 'user_events'],
     profileFields: ['id', 'name', 'displayName', 'emails', 'photos'],
     passReqToCallback: true,
   }, (req, fbAccessToken, fbRefreshToken, profile, done) => {
