@@ -1,12 +1,9 @@
-import { Facebook } from 'fb';
-import FacebookCore from '../../vendors/FacebookCore.es6';
-import FacebookEndpointPromises from '../../vendors/FacebookEndpointPromises.es6';
-import FacebookDatasourceCore from '../../vendors/DatasourcesCore.es6';
-import config from '../config';
 import Result from '../models/result';
 import errorResponse from '../utils/errorResponse';
 import uploadS3 from '../utils/uploadS3';
 import generateMorphedImg from '../utils/generateMorphedImg';
+import getSoulmateImage from '../utils/getSoulmateImage';
+import getProfileImage from '../utils/getProfileImage';
 
 // GET one
 export function getResult(req, res) {
@@ -14,45 +11,21 @@ export function getResult(req, res) {
   res.json({ result });
 }
 
+// generate soulmate result based on FB api result
 export function generateSoulmateResult(req, res) {
   const { quiz, user } = req.result;
-  const fb = new Facebook({
-    version: config.facebook.apiVersion,
-    appId: config.facebook.clientID,
-    appSecret: config.facebook.clientSecret,
-  });
-
-  fb.setAccessToken(user.fbAccessToken);
-
-  const fbCore = new FacebookCore(fb);
-  const fbPromises = new FacebookEndpointPromises(fbCore, {
-    max_items: 100,
-    limit: 25,
-    bulk_max_items: 20,
-  });
-  const datasourceCore = new FacebookDatasourceCore({
-    fb_core: fbCore,
-    fb_promises: fbPromises,
-  });
 
   Promise.all([
-    datasourceCore.get_nodes_data([user.fbId]),
-    datasourceCore.get_ordered_soulmates(),
+    getProfileImage(user, quiz.backgroundImage),
+    getSoulmateImage(user, quiz.backgroundImage),
   ])
   .then((resp) => {
-    const nodesData = resp[0];
-    const soulmates = resp[1];
-
-    const soulmate = soulmates[0][0].id !== user.fbId ? soulmates[0] : soulmates[1];
-    if (!soulmate) {
-      throw new Error('Soulmate not found!');
-    }
-
     const morphParams = {
       background: quiz.backgroundImage,
-      custImg2_url: nodesData[0][2].data.url,
-      custImg3_url: soulmate[2].data.url,
+      custImg2_url: resp[0],
+      custImg3_url: resp[1],
     };
+    console.log(morphParams);
     return generateMorphedImg(morphParams);
   })
   .then((imgUrl) => {
