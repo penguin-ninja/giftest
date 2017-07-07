@@ -30,7 +30,7 @@ export function* generateResultRequest(action) {
   yield put(setLoading(true));
   try {
     const { resultId } = action;
-    const data = yield call(callAPI.bind(null, `result/${resultId}/generateSoulmateResult`));
+    const data = yield call(callAPI.bind(null, `result/${resultId}/generateResult`));
     if (data.error) {
       throw data.error;
     }

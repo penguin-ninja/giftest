@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Result from '../models/result';
 import errorResponse from '../utils/errorResponse';
 import uploadS3 from '../utils/uploadS3';
@@ -5,19 +6,30 @@ import generateMorphedImg from '../utils/generateMorphedImg';
 import getSoulmateImage from '../utils/getSoulmateImage';
 import getProfileImage from '../utils/getProfileImage';
 
+function getStaticImage(images, algorithm = -1) {
+  if (algorithm === -1) {
+    return _.shuffle(images)[0];
+  }
+
+  return images[algorithm] || images[0];
+}
+
 // GET one
 export function getResult(req, res) {
   const { result } = req;
   res.json({ result });
 }
 
-// generate soulmate result based on FB api result
-export function generateSoulmateResult(req, res) {
+// Generates Morph Image
+export function generateResult(req, res) {
   const { quiz, user } = req.result;
+  const getImage = quiz.type === 'soulmate' ?
+    getSoulmateImage(user, quiz.backgroundImage, quiz.algorithm) :
+    getStaticImage(quiz.resultImages, quiz.algorithm);
 
   Promise.all([
-    getProfileImage(user, quiz.backgroundImage),
-    getSoulmateImage(user, quiz.backgroundImage),
+    getProfileImage(user, quiz.backgroundImage, quiz.algorithm),
+    getImage,
   ])
   .then((resp) => {
     const morphParams = {
@@ -28,33 +40,6 @@ export function generateSoulmateResult(req, res) {
     console.log(morphParams);
     return generateMorphedImg(morphParams);
   })
-  .then((imgUrl) => {
-    return uploadS3(imgUrl, req.result._id.toString());
-  })
-  .then((s3Url) => {
-    req.result.image = s3Url;
-    req.result.generated = true;
-    return req.result.save();
-  })
-  .then((result) => {
-    res.json({ result });
-  })
-  .catch(err => {
-    console.error(err); // eslint-disable-line no-console
-  });
-}
-
-// Generates Morph Image
-export function generateResult(req, res) {
-  const { quiz, user } = req.result;
-
-  const morphParams = {
-    background: quiz.backgroundImage,
-    custImg2_url: user.profileImage,
-    custImg3_url: quiz.resultImage,
-  };
-
-  generateMorphedImg(morphParams)
   .then((imgUrl) => {
     return uploadS3(imgUrl, req.result._id.toString());
   })

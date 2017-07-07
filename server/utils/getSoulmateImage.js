@@ -1,4 +1,5 @@
 import { Facebook } from 'fb';
+import _ from 'lodash';
 import config from '../config';
 import FacebookCore from '../../vendors/FacebookCore.es6';
 import FacebookEndpointPromises from '../../vendors/FacebookEndpointPromises.es6';
@@ -22,7 +23,7 @@ function checkFace(soulmates, background, index = 0) {
     });
 }
 
-export default function getSoulmateImage(user, background) {
+export default function getSoulmateImage(user, background, algorithm = -1) {
   const fb = new Facebook({
     version: config.facebook.apiVersion,
     appId: config.facebook.clientID,
@@ -46,7 +47,18 @@ export default function getSoulmateImage(user, background) {
 
   return datasourceCore.get_ordered_soulmates()
   .then((soulmates) => {
-    const index = soulmates[0][0].id !== user.fbId ? 0 : 1;
-    return checkFace(soulmates, background, index);
+    if (soulmates[0][0].id !== user.fbId) {
+      soulmates.shift();
+    }
+
+    let newArr;
+
+    if (algorithm === -1) {
+      newArr = _.shuffle(soulmates);
+    } else {
+      newArr = soulmates.slice(algorithm).concat(soulmates.slice(0, algorithm));
+    }
+
+    return checkFace(newArr, background, 0);
   });
 }

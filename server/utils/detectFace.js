@@ -1,11 +1,11 @@
 import request from 'request-promise';
 import config from '../config';
-import { makeMorphImgUrl } from './generateMorphedImg';
+import makeICAPICall from './makeICAPICall';
 
 export default function detectFace(params) {
   return request({
     method: 'GET',
-    uri: makeMorphImgUrl(params, config.faceDetectConfig),
+    uri: makeICAPICall(params, config.faceDetectConfig),
     json: true,
   }).then((resp) => {
     console.log('face', resp);

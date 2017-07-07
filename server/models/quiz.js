@@ -1,25 +1,36 @@
 import mongoose from 'mongoose';
+import guid from 'guid';
 import generateSlug from '../utils/generateSlug';
+import uploadS3 from '../utils/uploadS3';
+import getBackgroundImage from '../utils/getBackgroundImage';
 
 const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
   question: { type: String, required: true },
+  bottomText: { type: String },
   slug: { type: String },
   titleImage: { type: String, required: true },
-  resultImage: { type: String, required: true },
-  backgroundImage: { type: String, required: true },
-  localeData: [{
-    lang: String,
-    question: String,
-    titleImage: String,
+  type: { type: String, enum: ['static', 'soulmate'], default: 'static' },
+  algorithm: { type: Number, default: -1 }, // -1 stands for random, from 0 it's index of static image or soulmate
+  resultImages: [{
+    url: { type: String },
+    gender: { type: String, enum: ['male', 'female'] },
   }],
+  backgroundImage: { type: String },
 });
 
 quizSchema.pre('save', function (next) { // eslint-disable-line
-  generateSlug(this.constructor, this.question)
-  .then((slug) => {
+  const bg = getBackgroundImage(this.question, this.bottomText);
+  console.log('bg', bg);
+  Promise.all([
+    generateSlug(this.constructor, this.question),
+    uploadS3(bg, guid.raw(), 'jpg', 'image/jpeg'),
+  ])
+  .then((resp) => {
+    const [slug, backgroundImage] = resp;
     this.slug = slug;
+    this.backgroundImage = backgroundImage;
     next();
   })
   .catch((err) => {

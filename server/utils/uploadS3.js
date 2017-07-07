@@ -8,7 +8,7 @@ const s3 = new AWS.S3({
   region: config.aws.region,
 });
 
-export default function uploadS3(imgUrl, id) {
+export default function uploadS3(imgUrl, id, fileFormat = 'gif', contentType = 'image/gif') {
   return new Promise((resolve, reject) => {
     request({
       url: imgUrl,
@@ -18,14 +18,14 @@ export default function uploadS3(imgUrl, id) {
         return reject(err);
       }
 
-      const key = `${config.aws.s3Folder}/${id}.gif`;
+      const key = `${config.aws.s3Folder}/${id}.${fileFormat}`;
 
       return s3.putObject({
         Bucket: config.aws.s3Bucket,
         Key: key,
         ACL: 'public-read',
         Body: body,
-        ContentType: 'image/gif',
+        ContentType: contentType,
       }, (error) => {
         if (error) {
           return reject(error);

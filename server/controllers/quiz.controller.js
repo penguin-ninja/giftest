@@ -43,7 +43,7 @@ export function addQuiz(req, res) {
 
 // PUT update
 export function updateQuiz(req, res) {
-  const mergingValues = _.pick(req.body, 'question', 'titleImage', 'resultImage', 'localeData');
+  const mergingValues = _.pick(req.body, 'question', 'titleImage', 'resultImages', 'type', 'algorithm', 'bottomText');
   Object.assign(req.quiz, mergingValues);
   req.quiz.save()
   .then((quiz) => {

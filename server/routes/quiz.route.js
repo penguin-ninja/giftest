@@ -19,9 +19,6 @@ router.route('/result/:resultId')
 router.route('/result/:resultId/generateResult')
   .get(ResultController.generateResult);
 
-router.route('/result/:resultId/generateSoulmateResult')
-  .get(ResultController.generateSoulmateResult);
-
 router.param('slug', QuizController.getQuizMiddleware);
 router.param('resultId', ResultController.getResultMiddleware);
 
