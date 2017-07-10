@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const customerSchema = new Schema({
   firstName: { type: String, required: true, trim: true, default: '' },
   lastName: { type: String, required: true, trim: true, default: '' },
   email: { type: String, default: '' },
@@ -13,4 +13,4 @@ const userSchema = new Schema({
   fbRefreshToken: { type: String },
 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('Customer', customerSchema);

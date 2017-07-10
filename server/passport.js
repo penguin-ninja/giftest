@@ -1,6 +1,6 @@
 import passport from 'passport';
 import passportFacebook from 'passport-facebook';
-import User from './models/user';
+import Customer from './models/customer';
 import Quiz from './models/quiz';
 import Result from './models/result';
 import config from './config';
@@ -16,14 +16,14 @@ function setupFacebook() {
     profileFields: ['id', 'name', 'displayName', 'emails', 'photos', 'gender'],
     passReqToCallback: true,
   }, (req, fbAccessToken, fbRefreshToken, profile, done) => {
-    User.findOne({ fbId: profile.id })
+    Customer.findOne({ fbId: profile.id })
       .then((user) => {
-        let newUser = user;
+        let newCustomer = user;
         if (!user) {
-          newUser = new User();
+          newCustomer = new Customer();
         }
 
-        Object.assign(newUser, {
+        Object.assign(newCustomer, {
           fbId: profile.id,
           fbAccessToken,
           fbRefreshToken,
@@ -34,7 +34,7 @@ function setupFacebook() {
           profileImage: (profile.id) ? `https://graph.facebook.com/${profile.id}/picture?type=large` : undefined,
         });
 
-        newUser.save(done);
+        newCustomer.save(done);
       });
   }));
 }
@@ -47,7 +47,7 @@ export default function setupPassport(app) {
 
   // Deserialize sessions
   passport.deserializeUser((id, done) => {
-    User.findOne({
+    Customer.findOne({
       _id: id,
     }, (err, user) => {
       done(err, user);

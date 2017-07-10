@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const resultSchema = new Schema({
-  user: { type: Schema.ObjectId, ref: 'User' },
+  user: { type: Schema.ObjectId, ref: 'Customer' },
   quiz: { type: Schema.ObjectId, ref: 'Quiz' },
   image: { type: String },
 });
