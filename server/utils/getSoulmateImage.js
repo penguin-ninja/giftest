@@ -47,9 +47,11 @@ export default function getSoulmateImage(user, background, algorithm = -1) {
 
   return datasourceCore.get_ordered_soulmates()
   .then((soulmates) => {
-    if (soulmates[0][0].id !== user.fbId) {
+    if (soulmates[0][0].id === user.fbId) {
       soulmates.shift();
     }
+
+    console.log(soulmates);
 
     let newArr;
 

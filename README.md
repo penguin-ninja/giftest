@@ -24,8 +24,7 @@ Set 7.10 as default node version.
 ### Install pm2
 `$ npm install -g pm2`
 
-NOTE:
-MongoDB installataion will come later.
+### Install MongoDB
 
 ### Set Up Environment Variables
 

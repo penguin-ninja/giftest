@@ -23,9 +23,13 @@ export function getResult(req, res) {
 // Generates Morph Image
 export function generateResult(req, res) {
   const { quiz, user } = req.result;
+  const staticImages = quiz.resultImages.filter((image) => {
+    return !image.gender || image.gender === user.gender;
+  }).map((image) => image.url);
+
   const getImage = quiz.type === 'soulmate' ?
     getSoulmateImage(user, quiz.backgroundImage, quiz.algorithm) :
-    getStaticImage(quiz.resultImages, quiz.algorithm);
+    getStaticImage(staticImages, quiz.algorithm);
 
   Promise.all([
     getProfileImage(user, quiz.backgroundImage, quiz.algorithm),

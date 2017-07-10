@@ -22,7 +22,6 @@ const quizSchema = new Schema({
 
 quizSchema.pre('save', function (next) { // eslint-disable-line
   const bg = getBackgroundImage(this.question, this.bottomText);
-  console.log('bg', bg);
   Promise.all([
     generateSlug(this.constructor, this.question),
     uploadS3(bg, guid.raw(), 'jpg', 'image/jpeg'),

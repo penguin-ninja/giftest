@@ -13,7 +13,7 @@ function setupFacebook() {
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL,
     scope: ['user_photos', 'user_posts', 'user_tagged_places', 'user_events'],
-    profileFields: ['id', 'name', 'displayName', 'emails', 'photos'],
+    profileFields: ['id', 'name', 'displayName', 'emails', 'photos', 'gender'],
     passReqToCallback: true,
   }, (req, fbAccessToken, fbRefreshToken, profile, done) => {
     User.findOne({ fbId: profile.id })
@@ -27,6 +27,7 @@ function setupFacebook() {
           fbId: profile.id,
           fbAccessToken,
           fbRefreshToken,
+          gender: profile.gender,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           email: profile.emails ? profile.emails[0].value : undefined,
