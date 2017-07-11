@@ -53,7 +53,7 @@ class Result extends Component {
           <meta property="og:type" content="video.other" />
           <meta property="og:image" content={image} />
           <meta property="og:image:width" content="300" />
-          <meta property="og:image:height" content="335" />
+          <meta property="og:image:height" content="372" />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.resultContainer)}>
           <h2>{result.quiz.question}</h2>
