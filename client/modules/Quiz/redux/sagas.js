@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, fork, select } from 'redux-saga/effects';
-
+import { push } from 'react-router-redux';
 import callAPI from 'services/api';
 import {
   loadQuizDetailSuccess,
@@ -36,6 +36,7 @@ export function* loadQuizDetailRequest(action) {
     }
   } catch (e) {
     yield put(loadQuizDetailError(e));
+    yield push('/404');
   }
 }
 

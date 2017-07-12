@@ -24,7 +24,7 @@ export function getResult(req, res) {
 export function generateResult(req, res) {
   const { quiz, user } = req.result;
   const staticImages = quiz.resultImages.filter((image) => {
-    return !image.gender || image.gender === user.gender;
+    return !image.gender || !user.gender || image.gender === user.gender;
   }).map((image) => image.url);
 
   const getImage = quiz.type === 'soulmate' ?
@@ -63,7 +63,7 @@ export function generateResult(req, res) {
 export function getResultMiddleware(req, res, next, id) {
   return Result.findById(id)
   .populate('quiz')
-  .populate({ path: 'user', select: 'firstName lastName profileImage fbId fbAccessToken' })
+  .populate({ path: 'user', select: 'firstName lastName gender profileImage fbId fbAccessToken' })
   .then((result) => {
     req.result = result;
     return next();
