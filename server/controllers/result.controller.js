@@ -41,6 +41,8 @@ export function generateResult(req, res) {
       custImg2_url: resp[0],
       custImg3_url: resp[1],
     };
+    morphParams.custImg2_effectA_param = quiz.originalImgConfig;
+    morphParams.custImg3_effectB_param = quiz.resultImgConfig;
     console.log(morphParams);
     return generateMorphedImg(morphParams);
   })

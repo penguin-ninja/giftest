@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
   question: { type: String, required: true },
+  headerText: { type: String },
   bottomText: { type: String },
   slug: { type: String },
   titleImage: { type: String, required: true },
@@ -17,11 +18,13 @@ const quizSchema = new Schema({
     url: { type: String },
     gender: { type: String, enum: ['male', 'female'] },
   }],
+  originalImgConfig: { type: Object },
+  resultImgConfig: { type: Object },
   backgroundImage: { type: String },
 });
 
 quizSchema.pre('save', function (next) { // eslint-disable-line
-  const bg = getBackgroundImage(this.question, this.bottomText);
+  const bg = getBackgroundImage(this.question || this.headerText, this.bottomText);
   Promise.all([
     generateSlug(this.constructor, this.question),
     uploadS3(bg, guid.raw(), 'jpg', 'image/jpeg'),

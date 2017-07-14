@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import config from '../config';
 
 export default function makeICAPICall(params, customConfig) {
-  const morphConfig = Object.assign({}, customConfig || config.morphConfig, params);
+  const morphConfig = _.merge({}, customConfig || config.morphConfig, params);
   const queryArray = Object.keys(morphConfig).map((key) => {
     const val = morphConfig[key];
     if (typeof val === 'string') {
