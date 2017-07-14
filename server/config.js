@@ -108,6 +108,7 @@ const config = {
       debugCmd: 'n',
       morphIn2Direction: 'y',
     },
+    background_cacheVer: 'v1',
   },
 };
 
