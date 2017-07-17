@@ -10,7 +10,7 @@ export function getQuizList(req, res) {
   const skip = (req.query && req.query.skip) || 0;
   const limit = (req.query && req.query.limit) || 10;
 
-  Quiz.find()
+  Quiz.find({ status: 'ACTIVE' })
     .sort('-created')
     .skip(skip)
     .limit(limit)
@@ -75,8 +75,14 @@ export function getQuizMiddleware(req, res, next, slug) {
     query = { _id: new ObjectId(slug) };
   }
 
+  query.status = 'ACTIVE';
+
   return Quiz.findOne(query)
   .then((quiz) => {
+    if (!quiz) {
+      throw new Error(`Quiz ${slug} not found`);
+    }
+
     req.quiz = quiz;
     return next();
   })

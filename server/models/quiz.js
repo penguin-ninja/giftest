@@ -21,6 +21,7 @@ const quizSchema = new Schema({
   originalImgConfig: { type: Object },
   resultImgConfig: { type: Object },
   backgroundImage: { type: String },
+  status: { type: String, default: 'ACTIVE', enum: ['ACTIVE', 'DISABLED'] },
 });
 
 quizSchema.pre('save', function (next) { // eslint-disable-line

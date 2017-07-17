@@ -35,8 +35,8 @@ export function* loadQuizDetailRequest(action) {
       yield put(setSlug(slug));
     }
   } catch (e) {
+    yield put(push('/404'));
     yield put(loadQuizDetailError(e));
-    yield push('/404');
   }
 }
 
