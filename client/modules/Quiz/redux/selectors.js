@@ -25,10 +25,17 @@ const selectSlug = createSelector(
   (substate) => substate.get('slug')
 );
 
+const selectIntl = (state) => state.get('intl');
+const selectCurrentLocale = createSelector(
+  selectIntl,
+  (substate) => substate.get('locale')
+);
+
 export default {
   selectModule,
   selectQuizlist,
   selectQuizDetail,
   selectSlug,
   selectUser,
+  selectCurrentLocale,
 };

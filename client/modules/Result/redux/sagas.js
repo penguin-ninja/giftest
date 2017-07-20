@@ -1,5 +1,5 @@
 import { takeEvery } from 'redux-saga';
-import { call, put, fork } from 'redux-saga/effects';
+import { call, put, fork, select } from 'redux-saga/effects';
 
 import callAPI from 'services/api';
 import {
@@ -8,6 +8,7 @@ import {
   setLoading,
 } from './actions';
 import { LOAD_RESULT_REQUEST, GENERATE_RESULT_REQUEST } from './constants';
+import selectors from './selectors';
 
 export function* loadResultRequest(action) {
   yield put(setLoading(true));
@@ -29,8 +30,10 @@ export function* loadResultRequest(action) {
 export function* generateResultRequest(action) {
   yield put(setLoading(true));
   try {
+    const state = yield select();
+    const lang = selectors.selectCurrentLocale(state);
     const { resultId } = action;
-    const data = yield call(callAPI.bind(null, `result/${resultId}/generateResult`));
+    const data = yield call(callAPI.bind(null, `result/${resultId}/generateResult?lang=${lang}`));
     if (data.error) {
       throw data.error;
     }

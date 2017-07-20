@@ -5,6 +5,7 @@ import { Row } from 'react-bootstrap';
 import QuizListItem from 'modules/Home/components/QuizListItem';
 import selectors from 'modules/Home/redux/selectors';
 import actions from 'modules/Home/redux/actions';
+import getQuizLocale from 'modules/Intl/utils/getQuizLocale';
 
 import styles from './styles.css';
 
@@ -14,15 +15,18 @@ class QuizList extends Component {
   }
 
   _renderItems = () => {
-    const { quizlist } = this.props;
-    return quizlist.map((q) => (
-      <QuizListItem
-        key={`${q.get('_id')}${Math.random()}`}
-        title={q.get('question')}
-        slug={q.get('slug')}
-        imageUrl={q.get('titleImage')}
-      />
-    ));
+    const { quizlist, lang } = this.props;
+    return quizlist.map((q) => {
+      const locale = getQuizLocale(q.toJS(), lang);
+      return (
+        <QuizListItem
+          key={`${q.get('_id')}${Math.random()}`}
+          title={locale.question}
+          slug={q.get('slug')}
+          imageUrl={q.get('titleImage')}
+        />
+      );
+    });
   }
 
   render() {
@@ -36,11 +40,13 @@ class QuizList extends Component {
 
 QuizList.propTypes = {
   quizlist: PropTypes.any.isRequired,
+  lang: PropTypes.string.isRequired,
   loadQuizlistRequest: PropTypes.func.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
   quizlist: selectors.selectQuizlist(state),
+  lang: selectors.selectCurrentLocale(state),
 });
 
 const mapDispatchToProps = {

@@ -7,6 +7,7 @@ import selectors from 'modules/Result/redux/selectors';
 import actions from 'modules/Result/redux/actions';
 import FacebookShareButton from 'modules/Result/components/FacebookShareButton';
 import { loadResultRequest as loadResultSaga } from 'modules/Result/redux/sagas';
+import getQuizLocale from 'modules/Intl/utils/getQuizLocale';
 
 import styles from './styles.css';
 
@@ -34,29 +35,30 @@ class Result extends Component {
   }
 
   render() {
-    const { result: resultImmutable } = this.props;
+    const { result: resultImmutable, lang } = this.props;
     if (!resultImmutable) {
       return <div>Loading...</div>;
     }
 
     const result = resultImmutable.toJS();
     const image = result.image || `${process.env.AWS_S3_URL}/${process.env.AWS_S3_FOLDER}/${result._id}.gif`;
+    const locale = getQuizLocale(result.quiz, lang);
 
     return (
       <div className="container">
         <Helmet>
           <title>{`Animatedtest - ${result.user.firstName}'s Result`}</title>
-          <meta name="description" content={result.quiz.question} />
+          <meta name="description" content={locale.question} />
           <meta property="og:url" content={image} />
-          <meta property="og:title" content={result.quiz.question} />
-          <meta property="og:description" content={result.quiz.question} />
+          <meta property="og:title" content={locale.question} />
+          <meta property="og:description" content={locale.question} />
           <meta property="og:type" content="video.other" />
           <meta property="og:image" content={image} />
           <meta property="og:image:width" content="300" />
           <meta property="og:image:height" content="372" />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.resultContainer)}>
-          <h2>{result.quiz.question}</h2>
+          <h2>{locale.question}</h2>
           {
             result.image ?
               this._renderResult(result) :
@@ -77,12 +79,14 @@ Result.propTypes = {
   result: PropTypes.any.isRequired,
   loading: PropTypes.bool.isRequired,
   loadResultRequest: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   generateResultRequest: PropTypes.func.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
   result: selectors.selectResult(state),
   loading: selectors.selectLoading(state),
+  lang: selectors.selectCurrentLocale(state),
   path: selectors.selectPath(state),
 });
 

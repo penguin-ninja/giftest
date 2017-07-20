@@ -5,6 +5,7 @@ import uploadS3 from '../utils/uploadS3';
 import generateMorphedImg from '../utils/generateMorphedImg';
 import getSoulmateImage from '../utils/getSoulmateImage';
 import getProfileImage from '../utils/getProfileImage';
+import getQuizLocale from '../utils/getQuizLocale';
 
 function getStaticImage(images, algorithm = -1) {
   if (algorithm === -1) {
@@ -36,8 +37,9 @@ export function generateResult(req, res) {
     getImage,
   ])
   .then((resp) => {
+    const locale = getQuizLocale(quiz, req.query.lang);
     const morphParams = {
-      background: quiz.backgroundImage,
+      background: locale.backgroundImage,
       custImg2_url: resp[0],
       custImg3_url: resp[1],
     };

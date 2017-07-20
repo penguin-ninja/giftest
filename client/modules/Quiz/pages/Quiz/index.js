@@ -7,6 +7,7 @@ import selectors from 'modules/Quiz/redux/selectors';
 import actions from 'modules/Quiz/redux/actions';
 import { loadQuizDetailRequest as loadQuizSaga } from 'modules/Quiz/redux/sagas';
 import FacebookButton from 'modules/Quiz/components/FacebookButton';
+import getQuizLocale from 'modules/Intl/utils/getQuizLocale';
 
 import styles from './styles.css';
 
@@ -16,22 +17,23 @@ class Quiz extends Component {
   }
 
   render() {
-    const { quizDetail, currentSlug } = this.props;
+    const { quizDetail, currentSlug, lang } = this.props;
     if (!currentSlug || !quizDetail) {
       return null;
     }
     const quiz = this.props.quizDetail.toJS();
+    const locale = getQuizLocale(quiz, lang);
 
     return (
       <div className="container">
         <Helmet>
-          <title>{`Animatedtest - ${quiz.question}`}</title>
-          <meta name="description" content={quiz.question} />
+          <title>{`Animatedtest - ${locale.question}`}</title>
+          <meta name="description" content={locale.question} />
         </Helmet>
         <div className={cx('jumbotron text-center', styles.quizContainer)}>
-          <h2>{quiz.question}</h2>
+          <h2>{locale.question}</h2>
           <div className={styles.imgContainer}>
-            <img className="img-responsive" src={quiz.titleImage} alt={quiz.question} />
+            <img className="img-responsive" src={quiz.titleImage} alt={locale.question} />
           </div>
           <p><FormattedMessage id="quiz.description" /></p>
           <FacebookButton />
@@ -48,12 +50,14 @@ Quiz.preload = (params) => ([
 Quiz.propTypes = {
   params: PropTypes.object.isRequired,
   quizDetail: PropTypes.any.isRequired,
+  lang: PropTypes.string.isRequired,
   currentSlug: PropTypes.string.isRequired,
   loadQuizDetailRequest: PropTypes.func.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
   quizDetail: selectors.selectQuizDetail(state),
+  lang: selectors.selectCurrentLocale(state),
   currentSlug: selectors.selectSlug(state),
 });
 

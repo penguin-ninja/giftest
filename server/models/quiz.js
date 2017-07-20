@@ -7,9 +7,28 @@ import getBackgroundImage from '../utils/getBackgroundImage';
 const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
-  question: { type: String, required: true },
-  headerText: { type: String },
-  bottomText: { type: String },
+  question: {
+    type: String,
+    required: true,
+    set(newVal) {
+      this._prevQuestion = this.question;
+      return newVal;
+    },
+  },
+  headerText: {
+    type: String,
+    set(newVal) {
+      this._prevHeaderText = this.headerText;
+      return newVal;
+    },
+  },
+  bottomText: {
+    type: String,
+    set(newVal) {
+      this._prevBottomText = this.bottomText;
+      return newVal;
+    },
+  },
   slug: { type: String },
   titleImage: { type: String, required: true },
   type: { type: String, enum: ['static', 'soulmate'], default: 'static' },
@@ -18,10 +37,19 @@ const quizSchema = new Schema({
     url: { type: String },
     gender: { type: String, enum: ['male', 'female'] },
   }],
+  locale: [{
+    language: { type: String },
+    question: { type: String },
+    headerText: { type: String },
+    bottomText: { type: String },
+    backgroundImage: { type: String },
+    status: { type: String, default: 'created' },
+  }],
+  translated: { type: Boolean, default: false },
   originalImgConfig: { type: Object },
   resultImgConfig: { type: Object },
   backgroundImage: { type: String },
-  status: { type: String, default: 'ACTIVE', enum: ['ACTIVE', 'DISABLED'] },
+  status: { type: String, default: 'ACTIVE', enum: ['ACTIVE', 'DISABLED', 'TRANSLATING'] },
 });
 
 quizSchema.pre('save', function (next) { // eslint-disable-line
