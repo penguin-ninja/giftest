@@ -1,11 +1,8 @@
 import { enabledLanguages, localizationData } from '../../../../i18n/setup';
-import { SWITCH_LANGUAGE } from './actions';
+import { SWITCH_LANGUAGE, SET_LOCALE } from './actions';
 import { fromJS } from 'immutable';
 
-let initLocale = global.defaultLang;
-if (enabledLanguages.indexOf(initLocale) === -1) {
-  initLocale = 'en';
-}
+const initLocale = 'en';
 
 const initialState = fromJS({
   locale: initLocale,
@@ -20,6 +17,8 @@ const IntlReducer = (state = initialState, action) => {
       return state.merge(actionWithoutType);
     }
 
+    case SET_LOCALE:
+      return state.merge({ ...(localizationData[action.locale] || {}) });
     default:
       return state;
   }
