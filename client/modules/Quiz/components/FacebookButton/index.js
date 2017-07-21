@@ -26,8 +26,8 @@ class FacebookButton extends Component {
   }
 
   render() {
-    const { currentSlug, user } = this.props;
-    const href = `/auth/facebook?slug=${currentSlug}`;
+    const { currentSlug, user, lang } = this.props;
+    const href = `/auth/facebook?slug=${currentSlug}&lang=${lang}`;
     const btnClass = cx(styles.facebookButton, {
       [styles.hasUser]: user,
     });
@@ -48,11 +48,13 @@ FacebookButton.defaultProps = {
 
 FacebookButton.propTypes = {
   currentSlug: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   user: PropTypes.any,
 };
 
 const mapStatesToProps = (state) => ({
   currentSlug: selectors.selectSlug(state),
+  lang: selectors.selectCurrentLocale(state),
   user: selectors.selectUser(state),
 });
 

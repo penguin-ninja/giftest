@@ -61,19 +61,20 @@ export default function setupPassport(app) {
 
   app.get('/auth/facebook', (req, res, next) => {
     passport.authenticate('facebook', {
-      callbackURL: `${config.facebook.callbackURL}?slug=${req.query.slug}`,
+      callbackURL: `${config.facebook.callbackURL}?slug=${req.query.slug}&lang=${req.query.lang}`,
     })(req, res, next);
   });
 
   app.get('/auth/facebook/callback',
     (req, res, next) => {
       passport.authenticate('facebook', {
-        callbackURL: `${config.facebook.callbackURL}?slug=${req.query.slug}`,
+        callbackURL: `${config.facebook.callbackURL}?slug=${req.query.slug}&lang=${req.query.lang}`,
         failureRedirect: '/',
       })(req, res, next);
     },
     (req, res) => {
       const slug = req.query.slug;
+      const lang = req.query.lang;
       Quiz.findOne({ slug })
       .then((quiz) => {
         if (!quiz) {
@@ -88,7 +89,11 @@ export default function setupPassport(app) {
         return result.save();
       })
       .then((result) => {
-        res.redirect(`/quiz/${req.query.slug}/result/${result._id}`);
+        if (req.headers.host.indexOf('localhost') !== 0) {
+          res.redirect(`https://${lang}.animatedtest.com/quiz/${req.query.slug}/result/${result._id}`);
+        } else {
+          res.redirect(`/quiz/${req.query.slug}/result/${result._id}`);
+        }
       })
       .catch((err) => {
         console.error(err); // eslint-disable-line

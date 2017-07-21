@@ -2,8 +2,10 @@ import { enabledLanguages, localizationData } from '../../../../i18n/setup';
 import { SWITCH_LANGUAGE } from './actions';
 import { fromJS } from 'immutable';
 
-// @TODO load initial language from domain name
-const initLocale = (global.navigator && global.navigator.language) || 'en';
+let initLocale = global.defaultLang;
+if (enabledLanguages.indexOf(initLocale) === -1) {
+  initLocale = 'en';
+}
 
 const initialState = fromJS({
   locale: initLocale,
