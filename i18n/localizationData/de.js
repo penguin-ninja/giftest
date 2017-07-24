@@ -4,6 +4,7 @@ export default {
     lang: {
       en: 'Englisch',
       de: 'Deutsch',
+      pt: 'Portuguese',
     },
     header: {
       home: 'Huis',

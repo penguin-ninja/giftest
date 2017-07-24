@@ -3,7 +3,8 @@ export default {
   messages: {
     lang: {
       en: 'English',
-      de: 'Deutsch',
+      de: 'German',
+      pt: 'Portuguese',
     },
     header: {
       home: 'Home',
