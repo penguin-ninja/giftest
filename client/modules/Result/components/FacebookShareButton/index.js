@@ -21,8 +21,8 @@ class FacebookShareButton extends Component {
 
   render() {
     return (
-      <div className={styles.facebookButton} onClick={this._onShare}>
-        <img className={styles.fbImage} src={fbImage} alt="facebook" />
+      <div className={styles.facebookShareButton} onClick={this._onShare}>
+        <img className={styles.fbBigImage} src={fbImage} alt="facebook" />
         <span className={styles.buttonText}><FormattedMessage id="result.shareFacebook" /></span>
       </div>
     );

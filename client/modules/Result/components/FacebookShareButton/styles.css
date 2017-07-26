@@ -1,4 +1,4 @@
-.facebookButton {
+.facebookShareButton {
   position: relative;
   padding: 15px 20px 15px 60px;
   border: 2px solid #3d518b;
@@ -17,12 +17,12 @@
   cursor: pointer;
 }
 
-.facebookButton:hover {
+.facebookShareButton:hover {
   cursor: pointer;
   background-image: linear-gradient(to top,#415ea6 0%,#5774bc 100%);
 }
 
-.fbImage {
+.fbBigImage {
   width: 30px;
   height: 32px;
   position: absolute;
