@@ -10,11 +10,11 @@
 }
 
 p.preWording {
-    font-size: 21px;
+  font-size: 21px;
 }
 
 @media (max-width: 767px) {
-    p.preWording {
-        font-size: 16px;
-    }
+  p.preWording {
+    font-size: 16px!important;
+  }
 }

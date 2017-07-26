@@ -1,5 +1,5 @@
 .resultContainer {
-  background: white;
+  background-color: white!important;
   box-shadow: 0 0 0px 10px #FFFFFF inset;
   padding: 20px 20px 40px;
 }
