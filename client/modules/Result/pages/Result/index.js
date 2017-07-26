@@ -10,10 +10,19 @@ import { loadResultRequest as loadResultSaga } from 'modules/Result/redux/sagas'
 import getQuizLocale from 'modules/Intl/utils/getQuizLocale';
 
 import styles from './styles.css';
+import loader from './loader.gif';
 
 class Result extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showAnalyze: true };
+  }
+
   componentWillMount() {
     this.props.loadResultRequest(this.props.params.resultId);
+    setTimeout(() => {
+      this.setState({ showAnalyze: false });
+    }, 3000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,11 +34,24 @@ class Result extends Component {
     }
   }
 
-  _renderResult = (result) => {
+  _renderResult = (result, locale) => {
     return (
-      <div className={styles.imgContainer}>
-        <img className={cx('img-responsive', styles.image)} src={result.image} alt={result.quiz.question} />
+      <div className={cx('jumbotron text-center', styles.resultContainer)}>
         <FacebookShareButton />
+        <h2>{locale.question}</h2>
+        <div className={styles.imgContainer}>
+          <img className={cx('img-responsive', styles.image)} src={result.image} alt={result.quiz.question} />
+          <FacebookShareButton />
+        </div>
+      </div>
+    );
+  }
+
+  _renderLoading = () => {
+    return (
+      <div className={cx('jumbotron text-center', styles.resultContainer)}>
+        <img src={loader} alt="loading" className={styles.loading} />
+        <h3><FormattedMessage id={this.state.showAnalyze ? 'result.analyzing' : 'result.calculating'} /></h3>
       </div>
     );
   }
@@ -57,14 +79,11 @@ class Result extends Component {
           <meta property="og:image:width" content="300" />
           <meta property="og:image:height" content="372" />
         </Helmet>
-        <div className={cx('jumbotron text-center', styles.resultContainer)}>
-          <h2>{locale.question}</h2>
-          {
-            result.image ?
-              this._renderResult(result) :
-              <h3><FormattedMessage id="result.calculating" /></h3>
-          }
-        </div>
+        {
+          result.image ?
+            this._renderResult(result, locale) :
+            this._renderLoading()
+        }
       </div>
     );
   }

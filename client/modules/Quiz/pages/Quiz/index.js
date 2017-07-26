@@ -35,7 +35,7 @@ class Quiz extends Component {
           <div className={styles.imgContainer}>
             <img className="img-responsive" src={quiz.titleImage} alt={locale.question} />
           </div>
-          <p><FormattedMessage id="quiz.description" /></p>
+          <p className={styles.preWording}><FormattedMessage id="quiz.description" /></p>
           <FacebookButton />
         </div>
       </div>

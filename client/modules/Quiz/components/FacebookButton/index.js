@@ -8,8 +8,14 @@ import actions from 'modules/Quiz/redux/actions';
 
 import styles from './styles.css';
 import fbImage from './next-button-f.png';
+import loader from './loader.svg';
 
 class FacebookButton extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { loading: false };
+  }
+
   _renderButtonText = () => {
     const { user } = this.props;
     if (!user) return (<FormattedMessage id="quiz.loginFacebook" />);
@@ -25,6 +31,10 @@ class FacebookButton extends Component {
     return (<img className={styles.profileImg} src={userDetail.profileImage} alt={`${userDetail.firstName} ${userDetail.lastName}`} />);
   }
 
+  _setLoading = () => {
+    this.setState({ loading: true });
+  }
+
   render() {
     const { currentSlug, user, lang } = this.props;
     const href = `/auth/facebook?slug=${currentSlug}&lang=${lang}`;
@@ -32,8 +42,18 @@ class FacebookButton extends Component {
       [styles.hasUser]: user,
     });
 
+    if (this.state.loading) {
+      return (
+        <div className={styles.fbLoadingContainer}>
+          <div className={styles.fbLoadingText}>
+            <img src={loader} alt="loading" className={styles.loading} width="23" height="23" /> Please wait...
+          </div>
+        </div>
+      );
+    }
+
     return (
-      <a href={href} className={btnClass}>
+      <a href={href} className={btnClass} onClick={this._setLoading}>
         <img className={styles.fbImage} src={fbImage} alt="facebook" />
         <span className={styles.buttonText}>{this._renderButtonText()}</span>
         {this._renderProfileImg()}

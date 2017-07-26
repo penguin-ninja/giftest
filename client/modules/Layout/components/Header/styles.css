@@ -5,3 +5,42 @@ a.logoLink {
 .logoImg {
   height: 50px;
 }
+
+.navBar {
+  box-shadow: 1px 1.7px 3px 0 rgba(0,0,0,0.2);
+  border-radius: 0;
+}
+
+.home {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.home a {
+  background: transparent!important;
+  color: #336092!important;
+}
+
+.navBarBrand {
+    float: left;
+}
+
+@media (min-width: 768px) {
+  .home a {
+    padding: 15px 25px!important;
+    border-left: 1px solid #d3d1d4;
+    border-right: 1px solid #d3d1d4;
+  }
+}
+
+@media (max-width: 767px) {
+    .navBar .navBarBrand {
+        float: right;
+    }
+
+    .navBar .navBarToggle {
+        float: left;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}

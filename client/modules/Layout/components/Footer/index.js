@@ -35,7 +35,7 @@ class Footer extends Component {
                 <a href="//www.socialsweethearts.de/terms.html" target="_blank" rel="noopener noreferrer">
                   Disclaimer: All content is provided for fun and entertainment purposes only</a>
               </p>
-              <p className="small-footer">
+              <p className={styles.smallFooter}>
                 This app uses data and contents only if they are publicly available or with the consent of the users.
                 We kindly ask you to use the app only, if other users will not be affected adversely.
                 <br />

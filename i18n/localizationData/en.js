@@ -23,6 +23,7 @@ export default {
     },
     result: {
       shareFacebook: 'Share on Facebook',
+      analyzing: 'Analyzing profile...',
       calculating: 'Calculating result...',
     },
   },

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import selectors from 'modules/Result/redux/selectors';
 import styles from './styles.css';
-import fbImage from './next-button-f.png';
+import fbImage from './fb-button-f.png';
 
 class FacebookShareButton extends Component {
   _onShare = () => {

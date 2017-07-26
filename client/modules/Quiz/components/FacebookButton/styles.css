@@ -17,6 +17,38 @@
   cursor: pointer;
 }
 
+.facebookButton:hover {
+  cursor: pointer;
+  background-image: linear-gradient(to top,#415ea6 0%,#5774bc 100%);
+}
+
+.fbLoadingContainer {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  line-height: 35px;
+  padding: 0 15px;
+  border: 2px solid #8094BC;
+  background: #8094BC;
+  border-radius: 6px;
+  color: #fff;
+  text-shadow: 0 -2px 0 #425993;
+  font-size: 15px;
+  font-weight: bold;
+  transition: opacity 0.65s,transform 1s;
+}
+
+.fbLoadingText {
+  display: inline-block;
+  color: white;
+  text-shadow: none;
+}
+
+.fbLoadingIcon {
+  margin-right: 7px;
+}
+
 .hasUser {
   padding-right: 50px!important;
 }

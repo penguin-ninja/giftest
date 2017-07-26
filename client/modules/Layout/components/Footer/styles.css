@@ -1,4 +1,9 @@
 
 .footer {
   margin-top: 30px;
+  font-size: 13px;
+}
+
+.footer .smallFooter {
+    font-size: 11px;
 }

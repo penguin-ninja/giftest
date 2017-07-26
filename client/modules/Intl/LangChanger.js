@@ -1,28 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { NavDropdown, MenuItem } from 'react-bootstrap';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
 import selectors from './redux/selectors';
 import { switchLanguage } from './redux/actions';
+import styles from './styles.css';
 
 class LangChanger extends Component {
-  _onLanguageChange = (lang) => () => {
-    this.props.switchLanguage(lang);
+  _onLanguageChange = (evt) => {
+    this.props.switchLanguage(evt.target.value);
   };
 
   render() {
     const { intl, enabledLanguages, locale } = this.props;
     return (
-      <NavDropdown id="langChanger" title={intl.formatMessage({ id: `lang.${locale}` })} onClick={this._onClick}>
+      <select id="langChanger" className={styles.langChanger} onChange={this._onLanguageChange} value={locale}>
         {
           enabledLanguages.map((lang) => (
-            <MenuItem eventKey={lang} key={lang} onClick={this._onLanguageChange(lang)}>
-              <FormattedMessage id={`lang.${lang}`} />
-            </MenuItem>
+            <option value={lang} key={lang}>{intl.formatMessage({ id: `lang.${lang}` })}</option>
           ))
         }
-      </NavDropdown>
+      </select>
     );
   }
 }

@@ -8,3 +8,13 @@
   max-width: 300px;
   margin: 20px auto;
 }
+
+p.preWording {
+    font-size: 21px;
+}
+
+@media (max-width: 767px) {
+    p.preWording {
+        font-size: 16px;
+    }
+}

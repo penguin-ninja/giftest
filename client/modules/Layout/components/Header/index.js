@@ -11,21 +11,23 @@ import styles from './styles.css';
 class Header extends Component {
   render() {
     return (
-      <Navbar>
+      <Navbar className={styles.navBar}>
         <Navbar.Header>
-          <Navbar.Brand>
+          <Navbar.Brand className={styles.navBarBrand}>
             <Link to="/" className={styles.logoLink}>
               <img alt="logo" src={logo} className={styles.logoImg} />
             </Link>
           </Navbar.Brand>
-          <Navbar.Toggle />
+          <Navbar.Toggle className={styles.navBarToggle} />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
             <IndexLinkContainer to={{ pathname: '/' }}>
-              <NavItem eventKey={1}><FormattedMessage id="header.home" /></NavItem>
+              <NavItem eventKey={1} className={styles.home}><FormattedMessage id="header.home" /></NavItem>
             </IndexLinkContainer>
-            <LangChanger />
+            <NavItem eventKey={2}>
+              <LangChanger />
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
