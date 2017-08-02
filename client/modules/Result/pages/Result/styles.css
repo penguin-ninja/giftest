@@ -14,3 +14,8 @@
   width: 100%;
   margin-bottom: 15px;
 }
+
+.loading {
+    width: 128px;
+    height: 128px;
+}

@@ -35,7 +35,7 @@ export default function getSoulmateImage(user, background, algorithm = -1) {
   const fbCore = new FacebookCore(fb);
   const fbPromises = new FacebookEndpointPromises(fbCore, {
     max_items: 100,
-    limit: 25,
+    limit: 10,
     bulk_max_items: 20,
   });
   const datasourceCore = new FacebookDatasourceCore({
