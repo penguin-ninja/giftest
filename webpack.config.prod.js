@@ -71,7 +71,7 @@ module.exports = {
         loader: 'babel-loader',
       }, {
         test: /\.(jpe?g|gif|png|svg|woff|woff2|ttf|eot)$/i,
-        loader: 'url-loader?limit=10000',
+        loader: 'url-loader?limit=10',
       }, {
         test: /\.json$/,
         loader: 'json-loader',
