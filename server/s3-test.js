@@ -1,16 +1,11 @@
-import path from 'path';
+const path = require('path');
 require('dotenv').config({ path: path.resolve('./.env') });
-import uploadS3, { directUpload } from './utils/uploadS3';
-
-const startTime = new Date().getTime() / 1000;
-console.log('starting upload');
+const uploadS3 = require('./utils/uploadS3').default;
 
 // directUpload(path.resolve('./server/test.gif'), 'testImg')
 uploadS3('http://static.animatedtest.com/prod/5982dd6c7797ca53dfccab1a.gif', 'testImg')
 .then(() => {
-  const endTime = new Date().getTime() / 1000;
-
-  console.log(`Time taken ${endTime - startTime}`);
+  console.log('finished');
 })
 .catch((err) => {
   console.log(err);

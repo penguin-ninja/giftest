@@ -33,6 +33,8 @@ export function directUpload(path, id, fileFormat = 'gif', contentType = 'image/
 }
 
 export default function uploadS3(imgUrl, id, fileFormat = 'gif', contentType = 'image/gif') {
+  const startTime = new Date().getTime() / 1000;
+  console.log(imgUrl);
   return new Promise((resolve, reject) => {
     request({
       url: imgUrl,
@@ -54,6 +56,9 @@ export default function uploadS3(imgUrl, id, fileFormat = 'gif', contentType = '
         if (error) {
           return reject(error);
         }
+
+        const endTime = new Date().getTime() / 1000;
+        console.log(`Time taken on upload ${endTime - startTime}`);
 
         return resolve(`${config.aws.s3Url}/${key}`);
       });
