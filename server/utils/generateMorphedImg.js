@@ -1,3 +1,4 @@
+import request from 'request-promise';
 import makeICAPICall from './makeICAPICall';
 
 /**
@@ -5,4 +6,14 @@ import makeICAPICall from './makeICAPICall';
  */
 export default function generateMorphedImg(params) {
   return Promise.resolve(makeICAPICall(params));
+}
+
+export function generateAndUpload(params) {
+  return request({
+    method: 'GET',
+    uri: makeICAPICall(params),
+    json: true,
+  }).then((resp) => {
+    return resp.S3ImageURL;
+  });
 }

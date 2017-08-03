@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import Result from '../models/result';
 import errorResponse from '../utils/errorResponse';
-import uploadS3 from '../utils/uploadS3';
-import generateMorphedImg from '../utils/generateMorphedImg';
+import { generateAndUpload } from '../utils/generateMorphedImg';
 import getSoulmateImage from '../utils/getSoulmateImage';
 import getProfileImage from '../utils/getProfileImage';
 import getQuizLocale from '../utils/getQuizLocale';
@@ -45,11 +44,8 @@ export function generateResult(req, res) {
     };
     morphParams.custImg2_effectA_param = quiz.originalImgConfig;
     morphParams.custImg3_effectB_param = quiz.resultImgConfig;
-    console.log(morphParams);
-    return generateMorphedImg(morphParams);
-  })
-  .then((imgUrl) => {
-    return uploadS3(imgUrl, req.result._id.toString());
+    morphParams.AWSS3_ObjKey = req.result._id.toString();
+    return generateAndUpload(morphParams);
   })
   .then((s3Url) => {
     req.result.image = s3Url;

@@ -110,6 +110,8 @@ const config = {
       morphIn2Direction: 'y',
     },
     background_cacheVer: 'v1',
+    AWSS3_Bucket: process.env.AWS_S3_BUCKET,
+    AWSS3_ObjKey: ''
   },
 };
 
