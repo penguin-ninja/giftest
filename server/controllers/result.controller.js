@@ -32,11 +32,13 @@ export function generateResult(req, res) {
     getSoulmateImage(user, quiz.backgroundImage, quiz.algorithm) :
     getStaticImage(staticImages, quiz.algorithm);
 
+  console.time('get profile image');
   Promise.all([
     getProfileImage(user, quiz.backgroundImage, quiz.algorithm),
     getImage,
   ])
   .then((resp) => {
+    console.timeEnd('get profile image');
     const locale = getQuizLocale(quiz, req.query.lang);
     const morphParams = {
       background: locale.backgroundImage,
@@ -46,9 +48,11 @@ export function generateResult(req, res) {
     morphParams.custImg2_effectA_param = quiz.originalImgConfig;
     morphParams.custImg3_effectB_param = quiz.resultImgConfig;
     morphParams.AWSS3_ObjKey = `${config.aws.s3Folder}/${req.result._id.toString()}.gif`;
+    console.time('morph api');
     return generateAndUpload(morphParams);
   })
   .then(() => {
+    console.timeEnd('morph api');
     req.result.image = `${config.aws.s3Url}/${config.aws.s3Folder}/${req.result._id.toString()}.gif`;
     req.result.generated = true;
     return req.result.save();
