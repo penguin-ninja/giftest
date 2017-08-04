@@ -5,6 +5,7 @@ import { generateAndUpload } from '../utils/generateMorphedImg';
 import getSoulmateImage from '../utils/getSoulmateImage';
 import getProfileImage from '../utils/getProfileImage';
 import getQuizLocale from '../utils/getQuizLocale';
+import config from '../config';
 
 function getStaticImage(images, algorithm = -1) {
   if (algorithm === -1) {
@@ -44,16 +45,20 @@ export function generateResult(req, res) {
     };
     morphParams.custImg2_effectA_param = quiz.originalImgConfig;
     morphParams.custImg3_effectB_param = quiz.resultImgConfig;
-    morphParams.AWSS3_ObjKey = req.result._id.toString();
+    morphParams.AWSS3_ObjKey = `${config.aws.s3Folder}/${req.result._id.toString()}.gif`;
     return generateAndUpload(morphParams);
   })
-  .then((s3Url) => {
-    req.result.image = s3Url;
+  .then(() => {
+    req.result.image = `${config.aws.s3Url}/${config.aws.s3Folder}/${req.result._id.toString()}.gif`;
     req.result.generated = true;
     return req.result.save();
   })
   .then((result) => {
     res.json({ result });
+  })
+  .catch((err) => {
+    console.error(err);
+    res.json(err);
   });
 }
 
