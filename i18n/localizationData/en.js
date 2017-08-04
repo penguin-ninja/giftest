@@ -18,7 +18,7 @@ export default {
       becomeAPartner: 'Become a partner',
     },
     quiz: {
-      loginFacebook: 'Log In Facebook',
+      loginFacebook: 'Login with Facebook',
       description: 'Please login with Facebook to see your result',
     },
     result: {
