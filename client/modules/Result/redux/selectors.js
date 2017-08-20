@@ -13,6 +13,7 @@ const selectLoading = createSelector(
 );
 
 const selectPath = (state) => state.get('route').get('locationBeforeTransitions').pathname;
+const selectQuery = (state) => state.get('route').get('locationBeforeTransitions').query;
 const selectIntl = (state) => state.get('intl');
 const selectCurrentLocale = createSelector(
   selectIntl,
@@ -24,4 +25,5 @@ export default {
   selectLoading,
   selectPath,
   selectCurrentLocale,
+  selectQuery,
 };

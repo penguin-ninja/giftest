@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Helmet from 'react-helmet';
@@ -19,6 +20,11 @@ class Result extends Component {
   }
 
   componentWillMount() {
+    if (this.props.query && this.props.query.shared && this.props.result && this.props.result.get('quiz')) {
+      this.props.dispatch(replace(`/quiz/${this.props.result.get('quiz').get('_id')}`));
+      return;
+    }
+
     this.props.loadResultRequest(this.props.params.resultId);
     setTimeout(() => {
       this.setState({ showAnalyze: false });
@@ -100,6 +106,8 @@ Result.propTypes = {
   loadResultRequest: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   generateResultRequest: PropTypes.func.isRequired,
+  query: PropTypes.any.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStatesToProps = (state) => ({
@@ -107,11 +115,15 @@ const mapStatesToProps = (state) => ({
   loading: selectors.selectLoading(state),
   lang: selectors.selectCurrentLocale(state),
   path: selectors.selectPath(state),
+  query: selectors.selectQuery(state),
 });
 
-const mapDispatchToProps = {
-  loadResultRequest: actions.loadResultRequest,
-  generateResultRequest: actions.generateResultRequest,
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+    loadResultRequest: (...args) => dispatch(actions.loadResultRequest(...args)),
+    generateResultRequest: (...args) => dispatch(actions.generateResultRequest(...args)),
+  };
 };
 
 export default connect(mapStatesToProps, mapDispatchToProps)(Result);

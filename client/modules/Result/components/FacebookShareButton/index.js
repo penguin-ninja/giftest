@@ -15,7 +15,7 @@ class FacebookShareButton extends Component {
       method: 'share',
       caption: result.quiz.question,
       hashtag: '#animatedtest',
-      href: `${process.env.SITE_URL}${path}`,
+      href: `${process.env.SITE_URL}${path}?share=true`,
     });
   }
 

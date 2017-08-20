@@ -17,6 +17,9 @@ export default class DatasourcesCore {
         config = _.extend({
             img_size_low: 320,
             img_size_high: 960,
+            request_highres: true,
+            request_birthday: true,
+            batch_split: 50,
         }, config);
 
         let _this = this;
@@ -30,25 +33,31 @@ export default class DatasourcesCore {
             let batch_array = [];
 
             //change this, if you are adding or removing batch requests per node
-            const REQUESTS_PER_NODE = 3;
+            const REQUESTS_PER_NODE = config.request_highres ? 3 : 2;
 
             nodes.forEach((node) => {
+                let birthday_string_part = '';
+                if (config.request_birthday === true) {
+                    birthday_string_part = ',birthday';
+                }
                 batch_array.push({
                     method: 'GET',
-                    relative_url: node + '?fields=id,name,first_name,last_name,gender,locale,birthday'
+                    relative_url: `${node}?fields=id,name,first_name,last_name,gender,locale${birthday_string_part}`
                 });
                 batch_array.push({
                     method: 'GET',
-                    relative_url: node + '/picture?height=' + config.img_size_low + '&width=' + config.img_size_low + '&type=large&redirect=false'
+                    relative_url: `${node}/picture?height=${config.img_size_low}&width=${config.img_size_low}&type=large&redirect=false`
                 });
-                batch_array.push({
-                    method: 'GET',
-                    relative_url: node + '/picture?height=' + config.img_size_high + '&width=' + config.img_size_high + '&type=large&redirect=false'
-                });
+                if (config.request_highres === true) {
+                    batch_array.push({
+                        method: 'GET',
+                        relative_url: `${node}/picture?height=${config.img_size_high}&width=${config.img_size_high}&type=large&redirect=false`,
+                    });
+                }
             });
 
             const batch_config = {
-                split: 50 //splits the batch_arrays in seperate requests, with the size of 50
+                split: config.batch_split //splits the batch_arrays in seperate requests, with the size of 50
             };
 
             _this.fb_core.batch_p(batch_array, batch_config)
@@ -65,7 +74,7 @@ export default class DatasourcesCore {
                     resolve(result_array);
                 })
                 .catch(error => {
-                    reject();
+                    reject(error);
                 });
         });
     };
@@ -75,7 +84,7 @@ export default class DatasourcesCore {
      * @param node
      * @param soulmate_points
      */
-    get_ordered_soulmates(node = '/me', soulmate_points) {
+    get_ordered_soulmates(node = '/me', soulmate_points, config) {
 
         let _this = this;
 
@@ -84,19 +93,45 @@ export default class DatasourcesCore {
         }
 
         soulmate_points = _.extend({
-            appfriend: 1,
+            //photos
             photo_many: 1,
             photo_one: 3,
             photo_two: 2,
             photos_limit: 50,
+
+            //posts
             post_comment: 2,
             post_comment_withtags: 1,
             post_like: 3,
             post_like_withtags: 1,
             post_mention: 3,
             post_tag: 2,
-            posts_limit: 50
+            posts_limit: 50,
+
+            //friends
+            appfriend: 1,
         }, soulmate_points);
+
+        config = _.extend({
+            //photos
+            use_photos: true,
+            photos_limit: 25,
+            photos_max_items: 50,
+            photos_request_highres: true,
+
+            //posts
+            use_posts: true,
+            posts_limit: 25,
+            posts_max_items: 50,
+
+            //friends
+            use_friends: true,
+            friends_limit: 25,
+            friends_max_items: 150,
+
+            //general
+            batch_split: 50,
+        }, config);
 
         let candidates = [];
 
@@ -118,10 +153,10 @@ export default class DatasourcesCore {
             return new Promise((resolve, reject) => {
                 const photos_settings = {
                     fields: 'id,tags',
-                    limit: 25,
+                    limit: config.photos_limit,
                 };
                 const photos_config = {
-                    max_items: soulmate_points.photos_limit
+                    max_items: config.photos_max_items,
                 };
 
                 _this.fb_promises.get_photos(node, photos_settings, photos_config)
@@ -146,20 +181,20 @@ export default class DatasourcesCore {
                         resolve();
                     })
                     .catch(function (error) {
-                        reject();
+                        reject(error);
                     });
 
             });
-        };
+        }
 
         function analyze_friends() {
             return new Promise((resolve, reject) => {
                 const friends_settings = {
                     fields: 'id',
-                    limit: 25,
+                    limit: config.friends_limit,
                 };
                 const friends_config = {
-                    max_items: 150
+                    max_items: config.friends_max_items
                 };
 
                 _this.fb_promises.get_friends(node, friends_settings, friends_config)
@@ -179,10 +214,10 @@ export default class DatasourcesCore {
             return new Promise((resolve, reject) => {
                 const posts_settings = {
                     fields: 'id,likes,comments,with_tags,to',
-                    limit: 25,
+                    limit: config.posts_limit,
                 };
                 const posts_config = {
-                    max_items: soulmate_points.posts_limit
+                    max_items: config.posts_max_items
                 };
 
                 _this.fb_promises.get_posts(node, posts_settings, posts_config)
@@ -281,11 +316,19 @@ export default class DatasourcesCore {
         }
 
         return new Promise((resolve, reject) => {
-            const promises = [
-                analyze_photos(),
-                analyze_friends(),
-                analyze_posts()
-            ];
+            const promises = [];
+
+            if (config.use_friends === true) {
+                promises.push(analyze_friends());
+            }
+
+            if (config.use_posts === true) {
+                promises.push(analyze_posts());
+            }
+
+            if (config.use_photos === true) {
+                promises.push(analyze_photos());
+            }
 
             Promise.all(promises.map(p => p.catch(e => e)))
                 .then(response => {
@@ -297,12 +340,18 @@ export default class DatasourcesCore {
                                 return soulmates[b]['chance'] - soulmates[a]['chance'];
                             });
 
-                            _this.get_nodes_data(ordered_soulmates)
+                            const get_nodes_data_config = {
+                                request_birthday: false,
+                                request_highres: config.photos_request_highres,
+                                batch_split: config.batch_split,
+                            };
+
+                            _this.get_nodes_data(ordered_soulmates, get_nodes_data_config)
                                 .then(response => {
                                     resolve(response);
                                 })
                                 .catch(error => {
-                                    reject();
+                                    reject(error);
                                 });
                         });
                 });
