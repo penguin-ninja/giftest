@@ -20,7 +20,7 @@ class Result extends Component {
   }
 
   componentWillMount() {
-    if (this.props.query && this.props.query.shared && this.props.result && this.props.result.get('quiz')) {
+    if (this.props.query && this.props.query.share && this.props.result && this.props.result.get('quiz')) {
       this.props.dispatch(replace(`/quiz/${this.props.result.get('quiz').get('_id')}`));
       return;
     }
