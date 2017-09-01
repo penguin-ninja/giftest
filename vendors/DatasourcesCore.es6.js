@@ -162,6 +162,7 @@ export default class DatasourcesCore {
                 _this.fb_promises.get_photos(node, photos_settings, photos_config)
                     .then(function (response) {
                         for (let img in response) {
+                            console.log('analyze_photos response',response);
                             let photo = response[img];
 
                             if (photo.tags && photo.tags.data && photo.tags.data.length > 0) {
@@ -199,6 +200,7 @@ export default class DatasourcesCore {
 
                 _this.fb_promises.get_friends(node, friends_settings, friends_config)
                     .then(function (response) {
+                        console.log('analyze_friends response',response);
                         for (let f in response) {
                             gather_candidates(response[f].id, soulmate_points.appfriend);
                         }
@@ -222,6 +224,7 @@ export default class DatasourcesCore {
 
                 _this.fb_promises.get_posts(node, posts_settings, posts_config)
                     .then(function (response) {
+                        console.log('analyze_posts response',response);
                         for (let stat in response) {
                             try {
 
