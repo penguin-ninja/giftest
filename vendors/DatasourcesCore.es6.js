@@ -94,22 +94,22 @@ export default class DatasourcesCore {
 
         soulmate_points = _.extend({
             //photos
-            photo_many: 1,
-            photo_one: 3,
-            photo_two: 2,
+            photo_one: 6,
+            photo_two: 4,
+            photo_many: 2,
             photos_limit: 50,
 
             //posts
-            post_comment: 2,
+            post_comment: 4,
             post_comment_withtags: 1,
-            post_like: 3,
+            post_like: 6,
             post_like_withtags: 1,
-            post_mention: 3,
-            post_tag: 2,
-            posts_limit: 50,
+            post_mention: 6,
+            post_tag: 4,
+            posts_limit: 40,
 
             //friends
-            appfriend: 1,
+            appfriend: 2,
         }, soulmate_points);
 
         config = _.extend({
