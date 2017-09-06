@@ -10,5 +10,6 @@ export default function makeICAPICall(params, customConfig) {
     }
     return `${key}=${encodeURIComponent(JSON.stringify(val))}`;
   });
+  console.log('*** IC API ***', `${config.morphApiUrl}?${queryArray.join('&')}`);
   return `${config.morphApiUrl}?${queryArray.join('&')}`;
 }
