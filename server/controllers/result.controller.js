@@ -40,6 +40,19 @@ export function generateResult(req, res) {
   .then((resp) => {
     console.timeEnd('get profile image');
     const locale = getQuizLocale(quiz, req.query.lang);
+    if (resp[0].fallback) {
+      return generateAndUpload({
+        background: locale.backgroundImage,
+        custImg2_url: resp[0].fallback,
+        custImg3_url: resp[1],
+        custImg2_effectA_param: undefined,
+        custImg3_effectB_param: undefined,
+        custImg2_effect: undefined,
+        custImg3_effect: undefined,
+        AWSS3_ObjKey: `${config.aws.s3Folder}/${req.result._id.toString()}.gif`,
+      });
+    }
+
     const morphParams = {
       background: locale.backgroundImage,
       custImg2_url: resp[0],

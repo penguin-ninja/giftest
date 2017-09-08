@@ -7,7 +7,11 @@ import detectFace from './detectFace';
 
 function checkFace(photos, background, index = 0) {
   if (index - 1 > photos.length || !photos[index]) {
-    return Promise.reject(new Error('Can not find proper profile pic'));
+    // just fallback to first pic
+    return Promise.resolve({
+      fallback: photos[0],
+    });
+    // return Promise.reject(new Error('Can not find proper profile pic'));
   }
 
   console.log(index, photos[index]);
