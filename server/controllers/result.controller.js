@@ -45,10 +45,10 @@ export function generateResult(req, res) {
         background: locale.backgroundImage,
         custImg2_url: resp[0].fallback,
         custImg3_url: resp[1],
-        custImg2_effectA_param: undefined,
-        custImg3_effectB_param: undefined,
-        custImg2_effect: undefined,
-        custImg3_effect: undefined,
+        custImg2_effectA_param: null,
+        custImg3_effectB_param: null,
+        custImg2_effect: null,
+        custImg3_effect: null,
         AWSS3_ObjKey: `${config.aws.s3Folder}/${req.result._id.toString()}.gif`,
       });
     }

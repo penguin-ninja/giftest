@@ -5,6 +5,9 @@ export default function makeICAPICall(params, customConfig) {
   const morphConfig = _.merge({}, customConfig || config.morphConfig, params);
   const queryArray = Object.keys(morphConfig).map((key) => {
     const val = morphConfig[key];
+    if (val === null) {
+      return '';
+    }
     if (typeof val === 'string') {
       return `${key}=${encodeURIComponent(val)}`;
     }

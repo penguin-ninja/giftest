@@ -57,6 +57,7 @@ export default function getSoulmateImage(user, background) {
     console.log('checking profile faces');
     const photos = resp[1].map((item) => item.source);
     photos.unshift(resp[0][0][2].data.url);
+    console.log(photos);
     return checkFace(photos, background, 0);
   });
 }
