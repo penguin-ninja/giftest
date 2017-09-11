@@ -31,15 +31,6 @@ class Result extends Component {
     }, 3000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.result) {
-      const image = nextProps.result && nextProps.result.get('image');
-      if (!image && !this.props.loading) {
-        this.props.generateResultRequest(this.props.params.resultId);
-      }
-    }
-  }
-
   _renderResult = (result, locale) => {
     return (
       <div className={cx('jumbotron text-center', styles.resultContainer)}>
