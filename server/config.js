@@ -69,7 +69,7 @@ const config = {
     outputParams: {
       frameCount: '10',
       frameDelay_ms: '500',
-      quantizeImage: '64',
+      quantizeImage: '128',
     },
     custImg2_effectA_param: {
       op: 'faceDetect',
