@@ -50,6 +50,8 @@ const quizSchema = new Schema({
   resultImgConfig: { type: Object },
   backgroundImage: { type: String },
   status: { type: String, default: 'ACTIVE', enum: ['ACTIVE', 'DISABLED', 'TRANSLATING'] },
+}, {
+  timestamps: true,
 });
 
 quizSchema.pre('save', function (next) { // eslint-disable-line

@@ -8,10 +8,10 @@ const ObjectId = mongoose.Types.ObjectId;
 // GET list
 export function getQuizList(req, res) {
   const skip = (req.query && req.query.skip) || 0;
-  const limit = (req.query && req.query.limit) || 10;
+  const limit = (req.query && req.query.limit) || 100000;
 
   Quiz.find({ status: 'ACTIVE' })
-    .sort('-created')
+    .sort('-createdAt')
     .skip(skip)
     .limit(limit)
     .then((result) => {
